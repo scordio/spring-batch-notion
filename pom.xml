@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>3.0.1</version>
+    <version>3.0.6</version>
     <relativePath/>
   </parent>
 
@@ -15,6 +15,10 @@
 
   <name>Spring Batch Notion</name>
   <description>Spring Batch extension for Notion</description>
+  <inceptionYear>2023</inceptionYear>
+  <organization>
+    <name>Stefano Cordio</name>
+  </organization>
   <licenses>
     <license>
       <name>Apache 2.0</name>
@@ -33,20 +37,55 @@
 
   <properties>
     <java.version>17</java.version>
+    <notion-sdk-jvm.version>1.7.2</notion-sdk-jvm.version>
+    <!-- Dependency versions overriding -->
+    <assertj.version>3.24.2</assertj.version>
+    <junit-jupiter.version>5.9.3</junit-jupiter.version>
+    <mockito.version>5.2.0</mockito.version>
   </properties>
 
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-dependencies</artifactId>
+        <version>2022.0.2</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
   <dependencies>
     <!-- Compile -->
     <dependency>
       <groupId>com.github.seratch</groupId>
       <artifactId>notion-sdk-jvm-core</artifactId>
-      <version>1.7.2</version>
+      <version>${notion-sdk-jvm.version}</version>
     </dependency>
+    <dependency>
+      <groupId>com.github.seratch</groupId>
+      <artifactId>notion-sdk-jvm-httpclient</artifactId>
+      <version>${notion-sdk-jvm.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.github.seratch</groupId>
+      <artifactId>notion-sdk-jvm-slf4j2</artifactId>
+      <version>${notion-sdk-jvm.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-beans</artifactId>
+    </dependency>
+    <!-- Test -->
     <dependency>
       <groupId>org.springframework.batch</groupId>
       <artifactId>spring-batch-infrastructure</artifactId>
     </dependency>
-    <!-- Test -->
+    <dependency>
+      <groupId>com.h2database</groupId>
+      <artifactId>h2</artifactId>
+      <scope>test</scope>
+    </dependency>
     <dependency>
       <groupId>org.springframework.batch</groupId>
       <artifactId>spring-batch-test</artifactId>
@@ -54,7 +93,17 @@
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-batch</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-contract-stub-runner</artifactId>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -62,9 +111,25 @@
   <build>
     <plugins>
       <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>tidy-maven-plugin</artifactId>
-        <version>1.2.0</version>
+        <groupId>com.mycila</groupId>
+        <artifactId>license-maven-plugin</artifactId>
+        <version>4.2</version>
+        <configuration>
+          <errorMessage>Some files do not have the expected license header. Run license:format to update them.</errorMessage>
+          <licenseSets>
+            <licenseSet>
+              <header>com/mycila/maven/plugin/license/templates/APACHE-2.txt</header>
+              <includes>
+                <include>src/**/*.java</include>
+              </includes>
+            </licenseSet>
+          </licenseSets>
+          <properties>
+            <year>2023</year>
+            <owner>Stefano Cordio</owner>
+            <email>stefano.cordio@gmail.com</email>
+          </properties>
+        </configuration>
         <executions>
           <execution>
             <goals>
@@ -81,6 +146,18 @@
           <execution>
             <goals>
               <goal>validate</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>tidy-maven-plugin</artifactId>
+        <version>1.2.0</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>check</goal>
             </goals>
           </execution>
         </executions>
