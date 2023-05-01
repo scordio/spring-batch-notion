@@ -7,8 +7,9 @@ env:
 
 jobs:
 
-  test:
+  java_17:
 
+    name: Java 17
     runs-on: ubuntu-latest
 
     steps:

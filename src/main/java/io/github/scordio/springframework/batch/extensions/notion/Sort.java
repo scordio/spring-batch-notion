@@ -24,7 +24,9 @@ public class Sort {
 	public static final Direction DEFAULT_DIRECTION = Direction.ASC;
 
 	private final String property;
+
 	private final Timestamp timestamp;
+
 	private final Direction direction;
 
 	public static Sort by(String property, Direction direction) {
@@ -64,7 +66,7 @@ public class Sort {
 			this.notionTimestamp = notionTimestamp;
 		}
 
-		QuerySortTimestamp getNotionTimestamp() {
+		private QuerySortTimestamp getNotionTimestamp() {
 			return notionTimestamp;
 		}
 
@@ -80,7 +82,7 @@ public class Sort {
 			this.notionDirection = notionDirection;
 		}
 
-		QuerySortDirection getNotionDirection() {
+		private QuerySortDirection getNotionDirection() {
 			return notionDirection;
 		}
 

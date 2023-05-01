@@ -76,11 +76,11 @@
       <groupId>org.springframework</groupId>
       <artifactId>spring-beans</artifactId>
     </dependency>
-    <!-- Test -->
     <dependency>
       <groupId>org.springframework.batch</groupId>
       <artifactId>spring-batch-infrastructure</artifactId>
     </dependency>
+    <!-- Test -->
     <dependency>
       <groupId>com.h2database</groupId>
       <artifactId>h2</artifactId>
