@@ -62,6 +62,10 @@ public class NotionDatabaseItemReader<T> extends AbstractPaginatedDataItemReader
 
 	private String nextCursor;
 
+	public NotionDatabaseItemReader() {
+		super.setPageSize(100);
+	}
+
 	public void setBaseUrl(String baseUrl) {
 		this.baseUrl = baseUrl;
 	}

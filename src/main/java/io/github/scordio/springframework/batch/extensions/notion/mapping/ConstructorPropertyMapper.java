@@ -19,11 +19,11 @@ import java.lang.reflect.Constructor;
 import java.util.Arrays;
 
 /**
- * {@link NotionPropertyMapper} implementation that supports types with a single
- * constructor with arguments.
+ * {@link NotionPropertyMapper} implementation for types with a constructor with
+ * arguments.
  * <p>
- * It requires a single constructor with arguments and expects the constructor argument
- * names to match the Notion item property names (case-insensitive).
+ * It requires the constructor to be unique and its argument names to match the Notion
+ * item property names (case-insensitive).
  *
  * @param <T> the target type
  * @since 1.0
