@@ -15,19 +15,18 @@
  */
 package io.github.scordio.springframework.batch.extensions.notion.mapping;
 
-import org.springframework.util.Assert;
+import org.springframework.beans.BeanUtils;
 import org.springframework.util.LinkedCaseInsensitiveMap;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Parameter;
 import java.util.Arrays;
-import java.util.Map;
 
-abstract class ConstructorBasedPropertiesMapper<T> implements NotionPropertiesMapper<T> {
+abstract class ConstructorBasedPropertyMapper<T> extends CaseInsensitivePropertyMapper<T> {
 
 	private final Constructor<T> constructor;
 
-	ConstructorBasedPropertiesMapper(Class<T> type) {
+	ConstructorBasedPropertyMapper(Class<T> type) {
 		try {
 			this.constructor = getConstructor(type);
 		}
@@ -39,29 +38,14 @@ abstract class ConstructorBasedPropertiesMapper<T> implements NotionPropertiesMa
 	abstract Constructor<T> getConstructor(Class<T> type) throws NoSuchMethodException;
 
 	@Override
-	public T map(Map<String, ?> properties) {
-		try {
-			Map<String, Object> caseInsensitiveProperties = new LinkedCaseInsensitiveMap<>(properties.size());
-			caseInsensitiveProperties.putAll(properties);
+	T mapCaseInsensitive(LinkedCaseInsensitiveMap<?> properties) {
+		Object[] parameterValues = Arrays.stream(constructor.getParameters()) //
+				.map(Parameter::getName) //
+				.map(properties::get) //
+				.toArray();
 
-			Object[] parameterValues = Arrays.stream(constructor.getParameters()) //
-					.map(Parameter::getName) //
-					.map(caseInsensitiveProperties::get) //
-					.toArray();
+		return BeanUtils.instantiateClass(constructor, parameterValues);
 
-			return constructor.newInstance(parameterValues);
-		}
-		catch (ReflectiveOperationException e) {
-			throw new IllegalStateException(e);
-		}
-	}
-
-	@SuppressWarnings("unchecked")
-	static <T> Class<T> getClassOf(T[] reified) {
-		Assert.isTrue(reified.length == 0,
-				"Please don't pass any values here. The generic type will be detected automagically.");
-
-		return (Class<T>) reified.getClass().getComponentType();
 	}
 
 }

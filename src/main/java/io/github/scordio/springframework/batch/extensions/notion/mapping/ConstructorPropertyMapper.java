@@ -15,20 +15,37 @@
  */
 package io.github.scordio.springframework.batch.extensions.notion.mapping;
 
-import org.springframework.util.ReflectionUtils;
-
 import java.lang.reflect.Constructor;
 import java.util.Arrays;
 
-public class ConstructorPropertiesMapper<T> extends ConstructorBasedPropertiesMapper<T> {
+/**
+ * {@link NotionPropertyMapper} implementation that supports types with a single
+ * constructor with arguments.
+ * <p>
+ * It requires a single constructor with arguments and expects the constructor argument
+ * names to match the Notion item property names (case-insensitive).
+ *
+ * @param <T> the target type
+ * @since 1.0
+ */
+public class ConstructorPropertyMapper<T> extends ConstructorBasedPropertyMapper<T> {
 
-	public ConstructorPropertiesMapper(Class<T> type) {
+	/**
+	 * Create a new {@link ConstructorPropertyMapper}.
+	 * @param type type of the target object
+	 */
+	public ConstructorPropertyMapper(Class<T> type) {
 		super(type);
 	}
 
+	/**
+	 * Create a new {@link ConstructorPropertyMapper}.
+	 * @param reified don't pass any values to it. It's a trick to detect the type you
+	 * want to map to.
+	 */
 	@SafeVarargs
-	public ConstructorPropertiesMapper(T... reified) {
-		this(getClassOf(reified));
+	public ConstructorPropertyMapper(T... reified) {
+		this(ClassResolver.getClassOf(reified));
 	}
 
 	@SuppressWarnings("unchecked")
@@ -44,11 +61,7 @@ public class ConstructorPropertiesMapper<T> extends ConstructorBasedPropertiesMa
 			throw new NoSuchMethodException("Multiple constructors available: " + Arrays.toString(constructors));
 		}
 
-		Constructor<T> constructor = (Constructor<T>) constructors[0];
-
-		ReflectionUtils.makeAccessible(constructor);
-
-		return constructor;
+		return (Constructor<T>) constructors[0];
 	}
 
 }

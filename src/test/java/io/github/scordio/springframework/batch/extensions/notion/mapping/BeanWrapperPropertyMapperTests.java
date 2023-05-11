@@ -32,7 +32,7 @@ class BeanWrapperPropertyMapperTests {
 	@AllPropertiesSource
 	void should_map_all_properties(Map<String, ?> properties) {
 		// GIVEN
-		BeanWrapperPropertiesMapper<TestBean> underTest = new BeanWrapperPropertiesMapper<>(TestBean.class);
+		BeanWrapperPropertyMapper<TestBean> underTest = new BeanWrapperPropertyMapper<>(TestBean.class);
 		// WHEN
 		TestBean result = underTest.map(properties);
 		// THEN
@@ -45,7 +45,7 @@ class BeanWrapperPropertyMapperTests {
 	@PartialPropertiesSource
 	void should_map_partial_properties(Map<String, ?> properties) {
 		// GIVEN
-		BeanWrapperPropertiesMapper<TestBean> underTest = new BeanWrapperPropertiesMapper<>(TestBean.class);
+		BeanWrapperPropertyMapper<TestBean> underTest = new BeanWrapperPropertyMapper<>(TestBean.class);
 		// WHEN
 		TestBean result = underTest.map(properties);
 		// THEN
@@ -58,7 +58,7 @@ class BeanWrapperPropertyMapperTests {
 	@AllPropertiesSource
 	void should_map_all_properties_without_type_parameter(Map<String, ?> properties) {
 		// GIVEN
-		BeanWrapperPropertiesMapper<TestBean> underTest = new BeanWrapperPropertiesMapper<>();
+		BeanWrapperPropertyMapper<TestBean> underTest = new BeanWrapperPropertyMapper<>();
 		// WHEN
 		TestBean result = underTest.map(properties);
 		// THEN
@@ -70,11 +70,11 @@ class BeanWrapperPropertyMapperTests {
 	@Test
 	void should_fail_with_vararg_constructor_parameter() {
 		// WHEN
-		Throwable thrown = catchThrowable(() -> new BeanWrapperPropertiesMapper<>(new TestBean()));
+		Throwable thrown = catchThrowable(() -> new BeanWrapperPropertyMapper<>(new TestBean()));
 		// THEN
 		then(thrown) //
 				.isInstanceOf(IllegalArgumentException.class)
-				.hasMessage("Please don't pass any values here. The generic type will be detected automagically.");
+				.hasMessage("Please don't pass any values here. The type will be detected automagically.");
 	}
 
 	private static class TestBean {

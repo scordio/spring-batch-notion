@@ -15,30 +15,19 @@
  */
 package io.github.scordio.springframework.batch.extensions.notion.mapping;
 
-import org.springframework.util.ReflectionUtils;
+import org.springframework.util.LinkedCaseInsensitiveMap;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.RecordComponent;
-import java.util.Arrays;
+import java.util.Map;
 
-public class RecordPropertiesMapper<T extends Record> extends ConstructorBasedPropertiesMapper<T> {
-
-	public RecordPropertiesMapper(Class<T> type) {
-		super(type);
-	}
-
-	@SafeVarargs
-	public RecordPropertiesMapper(T... reified) {
-		this(getClassOf(reified));
-	}
+abstract class CaseInsensitivePropertyMapper<T> implements NotionPropertyMapper<T> {
 
 	@Override
-	Constructor<T> getConstructor(Class<T> type) throws NoSuchMethodException {
-		Class<?>[] parameterTypes = Arrays.stream(type.getRecordComponents()) //
-				.map(RecordComponent::getType) //
-				.toArray(Class[]::new);
-
-		return ReflectionUtils.accessibleConstructor(type, parameterTypes);
+	public T map(Map<String, ?> properties) {
+		LinkedCaseInsensitiveMap<Object> caseInsensitiveProperties = new LinkedCaseInsensitiveMap<>(properties.size());
+		caseInsensitiveProperties.putAll(properties);
+		return mapCaseInsensitive(caseInsensitiveProperties);
 	}
+
+	abstract T mapCaseInsensitive(LinkedCaseInsensitiveMap<?> properties);
 
 }

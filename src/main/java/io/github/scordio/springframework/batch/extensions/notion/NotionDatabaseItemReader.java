@@ -15,7 +15,7 @@
  */
 package io.github.scordio.springframework.batch.extensions.notion;
 
-import io.github.scordio.springframework.batch.extensions.notion.mapping.NotionPropertiesMapper;
+import io.github.scordio.springframework.batch.extensions.notion.mapping.NotionPropertyMapper;
 import notion.api.v1.NotionClient;
 import notion.api.v1.http.JavaNetHttpClient;
 import notion.api.v1.logging.Slf4jLogger;
@@ -36,15 +36,23 @@ import java.util.Map.Entry;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * A base class that handles basic reading logic based on the paginated semantics of
+ * Spring Data's paginated facilities. It also handles the semantics required for
+ * restartability based on those facilities.
+ *
+ * @param <T> Type of item to be read
+ * @since 1.0
+ */
 public class NotionDatabaseItemReader<T> extends AbstractPaginatedDataItemReader<T> implements InitializingBean {
 
 	private String baseUrl = NotionClient.getDefaultBaseUrl();
 
 	private String token;
 
-	private NotionPropertiesMapper<T> propertiesMapper;
-
 	private String databaseId;
+
+	private NotionPropertyMapper<T> propertyMapper;
 
 	private List<QuerySort> sorts;
 
@@ -54,26 +62,31 @@ public class NotionDatabaseItemReader<T> extends AbstractPaginatedDataItemReader
 
 	private String nextCursor;
 
-	public void setToken(String token) {
-		this.token = token;
-	}
-
 	public void setBaseUrl(String baseUrl) {
 		this.baseUrl = baseUrl;
 	}
 
-	public void setPropertiesMapper(NotionPropertiesMapper<T> propertiesMapper) {
-		this.propertiesMapper = propertiesMapper;
+	public void setToken(String token) {
+		this.token = token;
 	}
 
 	public void setDatabaseId(String databaseId) {
 		this.databaseId = databaseId;
 	}
 
+	public void setPropertyMapper(NotionPropertyMapper<T> propertyMapper) {
+		this.propertyMapper = propertyMapper;
+	}
+
 	public void setSorts(Sort... sorts) {
 		this.sorts = Stream.of(sorts).map(Sort::toNotionSort).toList();
 	}
 
+	/**
+	 * The number of items to be read with each page.
+	 * @param pageSize the number of items. Must be greater than zero and less than or
+	 * equal to 100.
+	 */
 	@Override
 	public void setPageSize(int pageSize) {
 		Assert.isTrue(pageSize <= 100, "pageSize must be less than or equal to 100");
@@ -99,7 +112,7 @@ public class NotionDatabaseItemReader<T> extends AbstractPaginatedDataItemReader
 
 		return queryResults.getResults().stream() //
 				.map(NotionDatabaseItemReader::getProperties) //
-				.map(properties -> propertiesMapper.map(properties)) //
+				.map(properties -> propertyMapper.map(properties)) //
 				.iterator();
 	}
 
@@ -133,9 +146,9 @@ public class NotionDatabaseItemReader<T> extends AbstractPaginatedDataItemReader
 
 	@Override
 	public void afterPropertiesSet() {
-		Assert.state(databaseId != null, "'databaseId' must be set");
-		Assert.state(propertiesMapper != null, "'propertyMapper' must be set");
 		Assert.state(token != null, "'token' must be set");
+		Assert.state(databaseId != null, "'databaseId' must be set");
+		Assert.state(propertyMapper != null, "'propertyMapper' must be set");
 	}
 
 }

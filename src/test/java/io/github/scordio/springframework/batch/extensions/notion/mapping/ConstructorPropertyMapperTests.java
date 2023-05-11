@@ -39,7 +39,7 @@ class ConstructorPropertyMapperTests {
 		@AllPropertiesSource
 		void should_map_all_properties(Map<String, ?> properties) {
 			// GIVEN
-			NotionPropertiesMapper<TestRecord> underTest = new ConstructorPropertiesMapper<>(TestRecord.class);
+			NotionPropertyMapper<TestRecord> underTest = new ConstructorPropertyMapper<>(TestRecord.class);
 			// WHEN
 			TestRecord result = underTest.map(properties);
 			// THEN
@@ -52,7 +52,7 @@ class ConstructorPropertyMapperTests {
 		@AllPropertiesSource
 		void should_map_all_properties_without_type_parameter(Map<String, ?> properties) {
 			// GIVEN
-			NotionPropertiesMapper<TestRecord> underTest = new ConstructorPropertiesMapper<>();
+			NotionPropertyMapper<TestRecord> underTest = new ConstructorPropertyMapper<>();
 			// WHEN
 			TestRecord result = underTest.map(properties);
 			// THEN
@@ -64,19 +64,18 @@ class ConstructorPropertyMapperTests {
 		@Test
 		void should_fail_with_vararg_constructor_parameter() {
 			// WHEN
-			Throwable thrown = catchThrowable(
-					() -> new ConstructorPropertiesMapper<>(new TestRecord("value", "value")));
+			Throwable thrown = catchThrowable(() -> new ConstructorPropertyMapper<>(new TestRecord("value", "value")));
 			// THEN
 			then(thrown) //
 					.isInstanceOf(IllegalArgumentException.class)
-					.hasMessage("Please don't pass any values here. The generic type will be detected automagically.");
+					.hasMessage("Please don't pass any values here. The type will be detected automagically.");
 		}
 
 		@ParameterizedTest
 		@PartialPropertiesSource
 		void should_map_partial_properties(Map<String, ?> properties) {
 			// GIVEN
-			NotionPropertiesMapper<TestRecord> underTest = new ConstructorPropertiesMapper<>(TestRecord.class);
+			NotionPropertyMapper<TestRecord> underTest = new ConstructorPropertyMapper<>(TestRecord.class);
 			// WHEN
 			TestRecord result = underTest.map(properties);
 			// THEN
@@ -107,7 +106,7 @@ class ConstructorPropertyMapperTests {
 		@Test
 		void should_fail() {
 			// WHEN
-			Throwable thrown = catchThrowable(() -> new ConstructorPropertiesMapper<>(TestRecord.class));
+			Throwable thrown = catchThrowable(() -> new ConstructorPropertyMapper<>(TestRecord.class));
 			// THEN
 			then(thrown).isInstanceOf(IllegalArgumentException.class) //
 					.cause() //

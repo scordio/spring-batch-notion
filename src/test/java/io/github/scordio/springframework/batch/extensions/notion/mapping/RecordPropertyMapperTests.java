@@ -39,7 +39,7 @@ class RecordPropertyMapperTests {
 		@AllPropertiesSource
 		void should_map_all_properties(Map<String, ?> properties) {
 			// GIVEN
-			NotionPropertiesMapper<TestRecord> underTest = new RecordPropertiesMapper<>(TestRecord.class);
+			NotionPropertyMapper<TestRecord> underTest = new RecordPropertyMapper<>(TestRecord.class);
 			// WHEN
 			TestRecord result = underTest.map(properties);
 			// THEN
@@ -52,7 +52,7 @@ class RecordPropertyMapperTests {
 		@AllPropertiesSource
 		void should_map_all_properties_without_type_parameter(Map<String, ?> properties) {
 			// GIVEN
-			NotionPropertiesMapper<TestRecord> underTest = new RecordPropertiesMapper<>();
+			NotionPropertyMapper<TestRecord> underTest = new RecordPropertyMapper<>();
 			// WHEN
 			TestRecord result = underTest.map(properties);
 			// THEN
@@ -64,18 +64,18 @@ class RecordPropertyMapperTests {
 		@Test
 		void should_fail_with_vararg_constructor_parameter() {
 			// WHEN
-			Throwable thrown = catchThrowable(() -> new RecordPropertiesMapper<>(new TestRecord("value", "value")));
+			Throwable thrown = catchThrowable(() -> new RecordPropertyMapper<>(new TestRecord("value", "value")));
 			// THEN
 			then(thrown) //
 					.isInstanceOf(IllegalArgumentException.class)
-					.hasMessage("Please don't pass any values here. The generic type will be detected automagically.");
+					.hasMessage("Please don't pass any values here. The type will be detected automagically.");
 		}
 
 		@ParameterizedTest
 		@PartialPropertiesSource
 		void should_map_partial_properties(Map<String, ?> properties) {
 			// GIVEN
-			NotionPropertiesMapper<TestRecord> underTest = new RecordPropertiesMapper<>(TestRecord.class);
+			NotionPropertyMapper<TestRecord> underTest = new RecordPropertyMapper<>(TestRecord.class);
 			// WHEN
 			TestRecord result = underTest.map(properties);
 			// THEN
@@ -107,7 +107,7 @@ class RecordPropertyMapperTests {
 		@AllPropertiesSource
 		void should_map_all_properties(Map<String, ?> properties) {
 			// GIVEN
-			NotionPropertiesMapper<TestRecord> underTest = new RecordPropertiesMapper<>(TestRecord.class);
+			NotionPropertyMapper<TestRecord> underTest = new RecordPropertyMapper<>(TestRecord.class);
 			// WHEN
 			TestRecord result = underTest.map(properties);
 			// THEN
