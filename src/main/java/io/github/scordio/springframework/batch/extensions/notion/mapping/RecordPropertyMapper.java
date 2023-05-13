@@ -28,7 +28,6 @@ import java.util.Arrays;
  * match the Notion item property names (case-insensitive).
  *
  * @param <T> the target type &mdash; must be a {@link Record}
- * @since 1.0
  */
 public class RecordPropertyMapper<T extends Record> extends ConstructorBasedPropertyMapper<T> {
 

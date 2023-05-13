@@ -21,7 +21,6 @@ import java.util.Map;
  * Strategy interface for mapping Notion item properties into an object.
  *
  * @param <T> the object type
- * @since 1.0
  */
 @FunctionalInterface
 public interface NotionPropertyMapper<T> {

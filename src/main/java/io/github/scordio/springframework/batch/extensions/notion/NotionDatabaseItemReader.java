@@ -25,6 +25,7 @@ import notion.api.v1.model.pages.Page;
 import notion.api.v1.model.pages.PageProperty;
 import notion.api.v1.model.pages.PageProperty.RichText;
 import notion.api.v1.request.databases.QueryDatabaseRequest;
+import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.data.AbstractPaginatedDataItemReader;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;
@@ -33,20 +34,24 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * A base class that handles basic reading logic based on the paginated semantics of
- * Spring Data's paginated facilities. It also handles the semantics required for
- * restartability based on those facilities.
+ * Restartable {@link ItemReader} that reads items from a Notion database.
+ * <p>
+ * It is <b>not</b> thread-safe.
  *
  * @param <T> Type of item to be read
- * @since 1.0
  */
 public class NotionDatabaseItemReader<T> extends AbstractPaginatedDataItemReader<T> implements InitializingBean {
 
-	private String baseUrl = NotionClient.getDefaultBaseUrl();
+	private static final String DEFAULT_BASE_URL = "https://api.notion.com/v1";
+
+	private static final int DEFAULT_PAGE_SIZE = 100;
+
+	private String baseUrl;
 
 	private String token;
 
@@ -62,26 +67,55 @@ public class NotionDatabaseItemReader<T> extends AbstractPaginatedDataItemReader
 
 	private String nextCursor;
 
+	/**
+	 * Create a new {@link NotionDatabaseItemReader} with the following defaults:
+	 * <ul>
+	 * <li>{@code baseUrl} = {@value #DEFAULT_BASE_URL}</li>
+	 * <li>{@code pageSize} = {@value #DEFAULT_PAGE_SIZE}</li>
+	 * </ul>
+	 */
 	public NotionDatabaseItemReader() {
-		super.setPageSize(100);
+		this.baseUrl = DEFAULT_BASE_URL;
+		this.pageSize = DEFAULT_PAGE_SIZE;
 	}
 
+	/**
+	 * The base URL of the Notion API.
+	 * <p>
+	 * A custom value can be provided for testing purposes (e.g., the URL of a WireMock
+	 * server).
+	 * @param baseUrl the base URL
+	 */
 	public void setBaseUrl(String baseUrl) {
-		this.baseUrl = baseUrl;
+		this.baseUrl = Objects.requireNonNull(baseUrl);
 	}
 
+	/**
+	 * The Notion integration token. Always required.
+	 * @param token the token
+	 */
 	public void setToken(String token) {
-		this.token = token;
+		this.token = Objects.requireNonNull(token);
 	}
 
+	/**
+	 * UUID of the database to read from. Always required.
+	 * @param databaseId the database UUID
+	 */
 	public void setDatabaseId(String databaseId) {
-		this.databaseId = databaseId;
+		this.databaseId = Objects.requireNonNull(databaseId);
 	}
 
 	public void setPropertyMapper(NotionPropertyMapper<T> propertyMapper) {
-		this.propertyMapper = propertyMapper;
+		this.propertyMapper = Objects.requireNonNull(propertyMapper);
 	}
 
+	/**
+	 * {@link Sort} conditions to order the returned items.
+	 * <p>
+	 * Each condition is applied following the declaration order.
+	 * @param sorts the {@link Sort} conditions
+	 */
 	public void setSorts(Sort... sorts) {
 		this.sorts = Stream.of(sorts).map(Sort::toNotionSort).toList();
 	}
@@ -146,6 +180,9 @@ public class NotionDatabaseItemReader<T> extends AbstractPaginatedDataItemReader
 	@Override
 	protected void doClose() {
 		client.close();
+		client = null;
+
+		hasMore = false;
 	}
 
 	@Override

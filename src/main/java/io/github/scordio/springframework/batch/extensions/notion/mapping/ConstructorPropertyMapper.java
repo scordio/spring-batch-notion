@@ -26,7 +26,6 @@ import java.util.Arrays;
  * item property names (case-insensitive).
  *
  * @param <T> the target type
- * @since 1.0
  */
 public class ConstructorPropertyMapper<T> extends ConstructorBasedPropertyMapper<T> {
 

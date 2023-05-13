@@ -19,46 +19,119 @@ import notion.api.v1.model.databases.query.sort.QuerySort;
 import notion.api.v1.model.databases.query.sort.QuerySortDirection;
 import notion.api.v1.model.databases.query.sort.QuerySortTimestamp;
 
-public class Sort {
+import java.util.Objects;
 
-	public static final Direction DEFAULT_DIRECTION = Direction.ASC;
+/**
+ * Sort conditions to order the entries returned from a database query. The direction
+ * defaults to {@link Direction#DEFAULT_DIRECTION}.
+ */
+public abstract class Sort {
 
-	private final String property;
+	public static final Direction DEFAULT_DIRECTION = Direction.ASCENDING;
 
-	private final Timestamp timestamp;
-
-	private final Direction direction;
-
+	/**
+	 * Sort condition that orders the database query by a particular property.
+	 * @param property the name of the property to sort against
+	 * @param direction the {@code Direction} to sort
+	 * @return the {@code Sort} instance
+	 */
 	public static Sort by(String property, Direction direction) {
-		return new Sort(property, null, direction);
+		return new PropertySort(property, direction);
 	}
 
+	/**
+	 * Sort condition that orders the database query by a particular property, in
+	 * ascending direction.
+	 * @param property the name of the property to sort against
+	 * @return the {@code Sort} instance
+	 */
 	public static Sort by(String property) {
-		return new Sort(property, null, DEFAULT_DIRECTION);
+		return new PropertySort(property, DEFAULT_DIRECTION);
 	}
 
+	/**
+	 * Sort condition that orders the database query by the timestamp associated with a
+	 * database entry.
+	 * @param timestamp the {@code Timestamp} to sort against
+	 * @param direction the {@code Direction} to sort
+	 * @return the {@code Sort} instance
+	 */
 	public static Sort by(Timestamp timestamp, Direction direction) {
-		return new Sort(null, timestamp, direction);
+		return new TimestampSort(timestamp, direction);
 	}
 
+	/**
+	 * Sort condition that orders the database query by the timestamp associated with a
+	 * database entry, in ascending direction.
+	 * @param timestamp the {@code Timestamp timestamp} to sort against
+	 * @return the {@code Sort} instance
+	 */
 	public static Sort by(Timestamp timestamp) {
-		return new Sort(null, timestamp, DEFAULT_DIRECTION);
+		return new TimestampSort(timestamp, DEFAULT_DIRECTION);
 	}
 
-	private Sort(String property, Timestamp timestamp, Direction direction) {
-		this.property = property;
-		this.timestamp = timestamp;
-		this.direction = direction;
+	abstract QuerySort toNotionSort();
+
+	private static class PropertySort extends Sort {
+
+		private final String property;
+
+		private final Direction direction;
+
+		private PropertySort(String property, Direction direction) {
+			this.property = Objects.requireNonNull(property);
+			this.direction = Objects.requireNonNull(direction);
+		}
+
+		@Override
+		QuerySort toNotionSort() {
+			return new QuerySort(property, null, direction.getNotionDirection());
+		}
+
+		@Override
+		public String toString() {
+			return "%s: %s".formatted(property, direction);
+		}
+
 	}
 
-	QuerySort toNotionSort() {
-		return new QuerySort(property, timestamp != null ? timestamp.getNotionTimestamp() : null,
-				direction != null ? direction.getNotionDirection() : null);
+	private static class TimestampSort extends Sort {
+
+		private final Timestamp timestamp;
+
+		private final Direction direction;
+
+		private TimestampSort(Timestamp timestamp, Direction direction) {
+			this.timestamp = Objects.requireNonNull(timestamp);
+			this.direction = Objects.requireNonNull(direction);
+		}
+
+		@Override
+		QuerySort toNotionSort() {
+			return new QuerySort(null, timestamp.getNotionTimestamp(), direction.getNotionDirection());
+		}
+
+		@Override
+		public String toString() {
+			return "%s: %s".formatted(timestamp, direction);
+		}
+
 	}
 
+	/**
+	 * Timestamps associated with database entries.
+	 */
 	public enum Timestamp {
 
-		CREATED_TIME(QuerySortTimestamp.CreatedTime), LAST_EDITED_TIME(QuerySortTimestamp.LastEditedTime);
+		/**
+		 * The time the entry was created.
+		 */
+		CREATED_TIME(QuerySortTimestamp.CreatedTime),
+
+		/**
+		 * The time the entry was last edited.
+		 */
+		LAST_EDITED_TIME(QuerySortTimestamp.LastEditedTime);
 
 		private final QuerySortTimestamp notionTimestamp;
 
@@ -72,9 +145,20 @@ public class Sort {
 
 	}
 
+	/**
+	 * Sort directions.
+	 */
 	public enum Direction {
 
-		ASC(QuerySortDirection.Ascending), DESC(QuerySortDirection.Descending);
+		/**
+		 * Ascending direction.
+		 */
+		ASCENDING(QuerySortDirection.Ascending),
+
+		/**
+		 * Descending direction.
+		 */
+		DESCENDING(QuerySortDirection.Descending);
 
 		private final QuerySortDirection notionDirection;
 

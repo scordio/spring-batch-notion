@@ -29,7 +29,6 @@ import java.lang.reflect.Constructor;
  * property names (case-insensitive).
  *
  * @param <T> the target type
- * @since 1.0
  */
 public class BeanWrapperPropertyMapper<T> extends CaseInsensitivePropertyMapper<T> {
 
