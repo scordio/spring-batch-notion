@@ -30,7 +30,7 @@ implementation("io.github.scordio:spring-batch-notion:${springBatchNotionVersion
 
 ## NotionDatabaseItemReader
 
-The `NotionDatabaseItemReader` allows to read items from a [Notion Database].
+The `NotionDatabaseItemReader` is a restartable `ItemReader` that reads entries from a [Notion Database] via a paging technique.
 
 A minimal configuration of the item reader is as follows:
 
@@ -39,7 +39,7 @@ NotionDatabaseItemReader<Item> itemReader() {
     NotionDatabaseItemReader<Item> reader = new NotionDatabaseItemReader<>();
     reader.setToken(System.getenv("NOTION_TOKEN"));
     reader.setDatabaseId("XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"); // UUID
-    reader.setPropertiesMapper(new BeanWrapperPropertyMapper()); // assuming `Item` is a JavaBean &mdash; more below
+    reader.setPropertiesMapper(new BeanWrapperPropertyMapper()); // assuming `Item` is a JavaBean — more below
     return reader;
 }
 ```

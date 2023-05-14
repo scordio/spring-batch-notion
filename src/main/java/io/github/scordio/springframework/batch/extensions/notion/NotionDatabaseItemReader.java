@@ -25,6 +25,7 @@ import notion.api.v1.model.pages.Page;
 import notion.api.v1.model.pages.PageProperty;
 import notion.api.v1.model.pages.PageProperty.RichText;
 import notion.api.v1.request.databases.QueryDatabaseRequest;
+import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.data.AbstractPaginatedDataItemReader;
 import org.springframework.beans.factory.InitializingBean;
@@ -39,9 +40,17 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * Restartable {@link ItemReader} that reads items from a Notion database.
+ * Restartable {@link ItemReader} that reads entries from a Notion database via a paging
+ * technique.
  * <p>
- * It is <b>not</b> thread-safe.
+ * The query is executed using paged requests of a size specified in
+ * {@link #setPageSize(int)}, which defaults to {@value #DEFAULT_PAGE_SIZE}. Additional
+ * pages are requested as needed when the {@link #read()} method is called. On restart,
+ * the reader will begin again at the same number item it left off at.
+ * <p>
+ * The implementation is thread-safe between calls to {@link #open(ExecutionContext)}, but
+ * remember to use <code>saveState=false</code> if used in a multi-threaded client (no
+ * restart available).
  *
  * @param <T> Type of item to be read
  */
