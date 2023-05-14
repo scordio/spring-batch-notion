@@ -45,9 +45,9 @@ class SortTests {
 		QuerySort result = underTest.toNotionSort();
 		// THEN
 		then(result) //
-				.returns(direction, from(QuerySort::getDirection)) //
-				.returns(property, from(QuerySort::getProperty)) //
-				.returns(timestamp, from(QuerySort::getTimestamp));
+			.returns(direction, from(QuerySort::getDirection)) //
+			.returns(property, from(QuerySort::getProperty)) //
+			.returns(timestamp, from(QuerySort::getTimestamp));
 	}
 
 	static Stream<Arguments> toNotionSort() {

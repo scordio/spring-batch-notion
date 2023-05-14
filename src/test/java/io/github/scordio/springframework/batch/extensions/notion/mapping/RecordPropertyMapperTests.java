@@ -44,8 +44,8 @@ class RecordPropertyMapperTests {
 			TestRecord result = underTest.map(properties);
 			// THEN
 			then(result) //
-					.returns("Value1", from(TestRecord::field1)) //
-					.returns("Value2", from(TestRecord::field2));
+				.returns("Value1", from(TestRecord::field1)) //
+				.returns("Value2", from(TestRecord::field2));
 		}
 
 		@ParameterizedTest
@@ -57,8 +57,8 @@ class RecordPropertyMapperTests {
 			TestRecord result = underTest.map(properties);
 			// THEN
 			then(result) //
-					.returns("Value1", from(TestRecord::field1)) //
-					.returns("Value2", from(TestRecord::field2));
+				.returns("Value1", from(TestRecord::field1)) //
+				.returns("Value2", from(TestRecord::field2));
 		}
 
 		@Test
@@ -67,8 +67,8 @@ class RecordPropertyMapperTests {
 			Throwable thrown = catchThrowable(() -> new RecordPropertyMapper<>(new TestRecord("value", "value")));
 			// THEN
 			then(thrown) //
-					.isInstanceOf(IllegalArgumentException.class)
-					.hasMessage("Please don't pass any values here. The type will be detected automagically.");
+				.isInstanceOf(IllegalArgumentException.class)
+				.hasMessage("Please don't pass any values here. The type will be detected automagically.");
 		}
 
 		@ParameterizedTest
@@ -80,8 +80,8 @@ class RecordPropertyMapperTests {
 			TestRecord result = underTest.map(properties);
 			// THEN
 			then(result) //
-					.returns("Value1", from(TestRecord::field1)) //
-					.returns(null, from(TestRecord::field2));
+				.returns("Value1", from(TestRecord::field1)) //
+				.returns(null, from(TestRecord::field2));
 		}
 
 	}
@@ -112,8 +112,8 @@ class RecordPropertyMapperTests {
 			TestRecord result = underTest.map(properties);
 			// THEN
 			then(result) //
-					.returns("Value1", from(TestRecord::field1)) //
-					.returns("Value2", from(TestRecord::field2));
+				.returns("Value1", from(TestRecord::field1)) //
+				.returns("Value2", from(TestRecord::field2));
 		}
 
 	}

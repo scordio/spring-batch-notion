@@ -40,9 +40,9 @@ abstract class ConstructorBasedPropertyMapper<T> extends CaseInsensitiveProperty
 	@Override
 	T mapCaseInsensitive(LinkedCaseInsensitiveMap<?> properties) {
 		Object[] parameterValues = Arrays.stream(constructor.getParameters()) //
-				.map(Parameter::getName) //
-				.map(properties::get) //
-				.toArray();
+			.map(Parameter::getName) //
+			.map(properties::get) //
+			.toArray();
 
 		return BeanUtils.instantiateClass(constructor, parameterValues);
 
