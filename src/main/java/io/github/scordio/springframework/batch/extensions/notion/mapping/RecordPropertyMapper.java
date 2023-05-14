@@ -52,8 +52,8 @@ public class RecordPropertyMapper<T extends Record> extends ConstructorBasedProp
 	@Override
 	Constructor<T> getConstructor(Class<T> type) throws NoSuchMethodException {
 		Class<?>[] parameterTypes = Arrays.stream(type.getRecordComponents()) //
-				.map(RecordComponent::getType) //
-				.toArray(Class[]::new);
+			.map(RecordComponent::getType) //
+			.toArray(Class[]::new);
 
 		return ReflectionUtils.accessibleConstructor(type, parameterTypes);
 	}

@@ -44,8 +44,8 @@ class ConstructorPropertyMapperTests {
 			TestRecord result = underTest.map(properties);
 			// THEN
 			then(result) //
-					.returns("Value1", from(TestRecord::field1)) //
-					.returns("Value2", from(TestRecord::field2));
+				.returns("Value1", from(TestRecord::field1)) //
+				.returns("Value2", from(TestRecord::field2));
 		}
 
 		@ParameterizedTest
@@ -57,8 +57,8 @@ class ConstructorPropertyMapperTests {
 			TestRecord result = underTest.map(properties);
 			// THEN
 			then(result) //
-					.returns("Value1", from(TestRecord::field1)) //
-					.returns("Value2", from(TestRecord::field2));
+				.returns("Value1", from(TestRecord::field1)) //
+				.returns("Value2", from(TestRecord::field2));
 		}
 
 		@Test
@@ -67,8 +67,8 @@ class ConstructorPropertyMapperTests {
 			Throwable thrown = catchThrowable(() -> new ConstructorPropertyMapper<>(new TestRecord("value", "value")));
 			// THEN
 			then(thrown) //
-					.isInstanceOf(IllegalArgumentException.class)
-					.hasMessage("Please don't pass any values here. The type will be detected automagically.");
+				.isInstanceOf(IllegalArgumentException.class)
+				.hasMessage("Please don't pass any values here. The type will be detected automagically.");
 		}
 
 		@ParameterizedTest
@@ -80,8 +80,8 @@ class ConstructorPropertyMapperTests {
 			TestRecord result = underTest.map(properties);
 			// THEN
 			then(result) //
-					.returns("Value1", from(TestRecord::field1)) //
-					.returns(null, from(TestRecord::field2));
+				.returns("Value1", from(TestRecord::field1)) //
+				.returns(null, from(TestRecord::field2));
 		}
 
 	}
@@ -109,9 +109,9 @@ class ConstructorPropertyMapperTests {
 			Throwable thrown = catchThrowable(() -> new ConstructorPropertyMapper<>(TestRecord.class));
 			// THEN
 			then(thrown).isInstanceOf(IllegalArgumentException.class) //
-					.cause() //
-					.isInstanceOf(NoSuchMethodException.class)
-					.hasMessageStartingWith("Multiple constructors available: ");
+				.cause() //
+				.isInstanceOf(NoSuchMethodException.class)
+				.hasMessageStartingWith("Multiple constructors available: ");
 		}
 
 	}

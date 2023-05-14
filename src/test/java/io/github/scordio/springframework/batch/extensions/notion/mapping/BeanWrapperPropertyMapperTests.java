@@ -37,8 +37,8 @@ class BeanWrapperPropertyMapperTests {
 		TestBean result = underTest.map(properties);
 		// THEN
 		then(result) //
-				.returns("Value1", from(TestBean::getField1)) //
-				.returns("Value2", from(TestBean::getField2));
+			.returns("Value1", from(TestBean::getField1)) //
+			.returns("Value2", from(TestBean::getField2));
 	}
 
 	@ParameterizedTest
@@ -50,8 +50,8 @@ class BeanWrapperPropertyMapperTests {
 		TestBean result = underTest.map(properties);
 		// THEN
 		then(result) //
-				.returns("Value1", from(TestBean::getField1)) //
-				.returns(null, from(TestBean::getField2));
+			.returns("Value1", from(TestBean::getField1)) //
+			.returns(null, from(TestBean::getField2));
 	}
 
 	@ParameterizedTest
@@ -63,8 +63,8 @@ class BeanWrapperPropertyMapperTests {
 		TestBean result = underTest.map(properties);
 		// THEN
 		then(result) //
-				.returns("Value1", from(TestBean::getField1)) //
-				.returns("Value2", from(TestBean::getField2));
+			.returns("Value1", from(TestBean::getField1)) //
+			.returns("Value2", from(TestBean::getField2));
 	}
 
 	@Test
@@ -73,8 +73,8 @@ class BeanWrapperPropertyMapperTests {
 		Throwable thrown = catchThrowable(() -> new BeanWrapperPropertyMapper<>(new TestBean()));
 		// THEN
 		then(thrown) //
-				.isInstanceOf(IllegalArgumentException.class)
-				.hasMessage("Please don't pass any values here. The type will be detected automagically.");
+			.isInstanceOf(IllegalArgumentException.class)
+			.hasMessage("Please don't pass any values here. The type will be detected automagically.");
 	}
 
 	private static class TestBean {

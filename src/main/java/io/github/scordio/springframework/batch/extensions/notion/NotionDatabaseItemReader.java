@@ -148,15 +148,18 @@ public class NotionDatabaseItemReader<T> extends AbstractPaginatedDataItemReader
 		hasMore = queryResults.getHasMore();
 		nextCursor = queryResults.getNextCursor();
 
-		return queryResults.getResults().stream() //
-				.map(NotionDatabaseItemReader::getProperties) //
-				.map(properties -> propertyMapper.map(properties)) //
-				.iterator();
+		return queryResults.getResults()
+			.stream() //
+			.map(NotionDatabaseItemReader::getProperties) //
+			.map(properties -> propertyMapper.map(properties)) //
+			.iterator();
 	}
 
 	private static Map<String, ?> getProperties(Page element) {
-		return element.getProperties().entrySet().stream()
-				.collect(Collectors.toMap(Entry::getKey, entry -> getPropertyValue(entry.getValue())));
+		return element.getProperties()
+			.entrySet()
+			.stream()
+			.collect(Collectors.toMap(Entry::getKey, entry -> getPropertyValue(entry.getValue())));
 	}
 
 	private static String getPropertyValue(PageProperty property) {
