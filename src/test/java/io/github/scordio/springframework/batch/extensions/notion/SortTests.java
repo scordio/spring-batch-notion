@@ -63,4 +63,26 @@ class SortTests {
 				arguments(Sort.by(LAST_EDITED_TIME, DESCENDING), null, LastEditedTime, Descending));
 	}
 
+	@ParameterizedTest
+	@MethodSource
+	void testToString(Sort underTest, String expected) {
+		// WHEN
+		String result = underTest.toString();
+		// THEN
+		then(result).isEqualTo(expected);
+	}
+
+	static Stream<Arguments> testToString() {
+		return Stream.of( //
+				arguments(Sort.by("property"), "property: ASCENDING"),
+				arguments(Sort.by("property", ASCENDING), "property: ASCENDING"),
+				arguments(Sort.by("property", DESCENDING), "property: DESCENDING"),
+				arguments(Sort.by(CREATED_TIME), "CREATED_TIME: ASCENDING"),
+				arguments(Sort.by(CREATED_TIME, ASCENDING), "CREATED_TIME: ASCENDING"),
+				arguments(Sort.by(CREATED_TIME, DESCENDING), "CREATED_TIME: DESCENDING"),
+				arguments(Sort.by(LAST_EDITED_TIME), "LAST_EDITED_TIME: ASCENDING"),
+				arguments(Sort.by(LAST_EDITED_TIME, ASCENDING), "LAST_EDITED_TIME: ASCENDING"),
+				arguments(Sort.by(LAST_EDITED_TIME, DESCENDING), "LAST_EDITED_TIME: DESCENDING"));
+	}
+
 }
