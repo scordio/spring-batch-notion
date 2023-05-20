@@ -47,7 +47,6 @@ jobs:
       - name: Set Spring Boot ${{ matrix.spring }}
         run: >
           ./mvnw $MAVEN_ARGS versions:update-parent
-          -DgenerateBackupPoms=false
           -DparentVersion=${{ matrix.spring }}
           -DskipResolution
       - name: Test
