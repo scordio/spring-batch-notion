@@ -22,7 +22,7 @@ import java.lang.reflect.RecordComponent;
 import java.util.Arrays;
 
 /**
- * {@link NotionPropertyMapper} implementation for {@link Record Java records}.
+ * {@link PropertyMapper} implementation for {@link Record Java records}.
  * <p>
  * It uses the record canonical constructor and requires the record component names to
  * match the Notion item property names (case-insensitive).

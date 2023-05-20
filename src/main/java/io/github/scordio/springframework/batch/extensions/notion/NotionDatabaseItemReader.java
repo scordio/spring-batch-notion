@@ -15,7 +15,7 @@
  */
 package io.github.scordio.springframework.batch.extensions.notion;
 
-import io.github.scordio.springframework.batch.extensions.notion.mapping.NotionPropertyMapper;
+import io.github.scordio.springframework.batch.extensions.notion.mapping.PropertyMapper;
 import notion.api.v1.NotionClient;
 import notion.api.v1.http.JavaNetHttpClient;
 import notion.api.v1.logging.Slf4jLogger;
@@ -66,7 +66,7 @@ public class NotionDatabaseItemReader<T> extends AbstractPaginatedDataItemReader
 
 	private String databaseId;
 
-	private NotionPropertyMapper<T> propertyMapper;
+	private PropertyMapper<T> propertyMapper;
 
 	private List<QuerySort> sorts;
 
@@ -115,7 +115,7 @@ public class NotionDatabaseItemReader<T> extends AbstractPaginatedDataItemReader
 		this.databaseId = Objects.requireNonNull(databaseId);
 	}
 
-	public void setPropertyMapper(NotionPropertyMapper<T> propertyMapper) {
+	public void setPropertyMapper(PropertyMapper<T> propertyMapper) {
 		this.propertyMapper = Objects.requireNonNull(propertyMapper);
 	}
 

@@ -19,7 +19,7 @@ import org.springframework.util.LinkedCaseInsensitiveMap;
 
 import java.util.Map;
 
-abstract class CaseInsensitivePropertyMapper<T> implements NotionPropertyMapper<T> {
+abstract class CaseInsensitivePropertyMapper<T> implements PropertyMapper<T> {
 
 	@Override
 	public T map(Map<String, ?> properties) {

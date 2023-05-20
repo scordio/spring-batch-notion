@@ -32,7 +32,7 @@ class BeanWrapperPropertyMapperTests {
 	@AllPropertiesSource
 	void should_map_all_properties(Map<String, ?> properties) {
 		// GIVEN
-		BeanWrapperPropertyMapper<TestBean> underTest = new BeanWrapperPropertyMapper<>(TestBean.class);
+		PropertyMapper<TestBean> underTest = new BeanWrapperPropertyMapper<>(TestBean.class);
 		// WHEN
 		TestBean result = underTest.map(properties);
 		// THEN
@@ -45,7 +45,7 @@ class BeanWrapperPropertyMapperTests {
 	@PartialPropertiesSource
 	void should_map_partial_properties(Map<String, ?> properties) {
 		// GIVEN
-		BeanWrapperPropertyMapper<TestBean> underTest = new BeanWrapperPropertyMapper<>(TestBean.class);
+		PropertyMapper<TestBean> underTest = new BeanWrapperPropertyMapper<>(TestBean.class);
 		// WHEN
 		TestBean result = underTest.map(properties);
 		// THEN
@@ -58,7 +58,7 @@ class BeanWrapperPropertyMapperTests {
 	@AllPropertiesSource
 	void should_map_all_properties_without_type_parameter(Map<String, ?> properties) {
 		// GIVEN
-		BeanWrapperPropertyMapper<TestBean> underTest = new BeanWrapperPropertyMapper<>();
+		PropertyMapper<TestBean> underTest = new BeanWrapperPropertyMapper<>();
 		// WHEN
 		TestBean result = underTest.map(properties);
 		// THEN

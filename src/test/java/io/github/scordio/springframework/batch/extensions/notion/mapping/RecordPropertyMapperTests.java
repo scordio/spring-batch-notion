@@ -39,7 +39,7 @@ class RecordPropertyMapperTests {
 		@AllPropertiesSource
 		void should_map_all_properties(Map<String, ?> properties) {
 			// GIVEN
-			NotionPropertyMapper<TestRecord> underTest = new RecordPropertyMapper<>(TestRecord.class);
+			PropertyMapper<TestRecord> underTest = new RecordPropertyMapper<>(TestRecord.class);
 			// WHEN
 			TestRecord result = underTest.map(properties);
 			// THEN
@@ -52,7 +52,7 @@ class RecordPropertyMapperTests {
 		@AllPropertiesSource
 		void should_map_all_properties_without_type_parameter(Map<String, ?> properties) {
 			// GIVEN
-			NotionPropertyMapper<TestRecord> underTest = new RecordPropertyMapper<>();
+			PropertyMapper<TestRecord> underTest = new RecordPropertyMapper<>();
 			// WHEN
 			TestRecord result = underTest.map(properties);
 			// THEN
@@ -75,7 +75,7 @@ class RecordPropertyMapperTests {
 		@PartialPropertiesSource
 		void should_map_partial_properties(Map<String, ?> properties) {
 			// GIVEN
-			NotionPropertyMapper<TestRecord> underTest = new RecordPropertyMapper<>(TestRecord.class);
+			PropertyMapper<TestRecord> underTest = new RecordPropertyMapper<>(TestRecord.class);
 			// WHEN
 			TestRecord result = underTest.map(properties);
 			// THEN
@@ -107,7 +107,7 @@ class RecordPropertyMapperTests {
 		@AllPropertiesSource
 		void should_map_all_properties(Map<String, ?> properties) {
 			// GIVEN
-			NotionPropertyMapper<TestRecord> underTest = new RecordPropertyMapper<>(TestRecord.class);
+			PropertyMapper<TestRecord> underTest = new RecordPropertyMapper<>(TestRecord.class);
 			// WHEN
 			TestRecord result = underTest.map(properties);
 			// THEN

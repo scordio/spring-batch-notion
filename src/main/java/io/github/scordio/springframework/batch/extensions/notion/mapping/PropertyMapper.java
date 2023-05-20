@@ -23,7 +23,7 @@ import java.util.Map;
  * @param <T> the object type
  */
 @FunctionalInterface
-public interface NotionPropertyMapper<T> {
+public interface PropertyMapper<T> {
 
 	/**
 	 * Map the given item properties into an object of type {@code T}.

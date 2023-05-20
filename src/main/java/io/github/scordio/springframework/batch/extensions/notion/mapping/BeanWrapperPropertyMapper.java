@@ -23,7 +23,7 @@ import org.springframework.util.LinkedCaseInsensitiveMap;
 import java.lang.reflect.Constructor;
 
 /**
- * {@link NotionPropertyMapper} implementation for JavaBeans.
+ * {@link PropertyMapper} implementation for JavaBeans.
  * <p>
  * It requires a default constructor and expects the setter names to match the Notion item
  * property names (case-insensitive).

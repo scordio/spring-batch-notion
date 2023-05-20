@@ -59,9 +59,9 @@ In addition to the Notion specific configuration options, all the configuration 
 
 ## Property Mapper
 
-The `NotionDatabaseItemReader` requires a `NotionPropertyMapper` to map the properties of a Notion item into an object.
+The `NotionDatabaseItemReader` requires a `PropertyMapper` to map the properties of a Notion item into an object.
 
-The following `NotionPropertyMapper` implementations are provided out of the box.
+The following `PropertyMapper` implementations are provided out of the box.
 
 | Name                        | Description                                                                                                                                                                |
 |-----------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|

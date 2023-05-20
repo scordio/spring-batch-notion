@@ -70,54 +70,6 @@ public abstract class Sort {
 		return new TimestampSort(timestamp, DEFAULT_DIRECTION);
 	}
 
-	abstract QuerySort toNotionSort();
-
-	private static class PropertySort extends Sort {
-
-		private final String property;
-
-		private final Direction direction;
-
-		private PropertySort(String property, Direction direction) {
-			this.property = Objects.requireNonNull(property);
-			this.direction = Objects.requireNonNull(direction);
-		}
-
-		@Override
-		QuerySort toNotionSort() {
-			return new QuerySort(property, null, direction.getNotionDirection());
-		}
-
-		@Override
-		public String toString() {
-			return "%s: %s".formatted(property, direction);
-		}
-
-	}
-
-	private static class TimestampSort extends Sort {
-
-		private final Timestamp timestamp;
-
-		private final Direction direction;
-
-		private TimestampSort(Timestamp timestamp, Direction direction) {
-			this.timestamp = Objects.requireNonNull(timestamp);
-			this.direction = Objects.requireNonNull(direction);
-		}
-
-		@Override
-		QuerySort toNotionSort() {
-			return new QuerySort(null, timestamp.getNotionTimestamp(), direction.getNotionDirection());
-		}
-
-		@Override
-		public String toString() {
-			return "%s: %s".formatted(timestamp, direction);
-		}
-
-	}
-
 	/**
 	 * Timestamps associated with database entries.
 	 */
@@ -168,6 +120,54 @@ public abstract class Sort {
 
 		private QuerySortDirection getNotionDirection() {
 			return notionDirection;
+		}
+
+	}
+
+	abstract QuerySort toNotionSort();
+
+	private static class PropertySort extends Sort {
+
+		private final String property;
+
+		private final Direction direction;
+
+		private PropertySort(String property, Direction direction) {
+			this.property = Objects.requireNonNull(property);
+			this.direction = Objects.requireNonNull(direction);
+		}
+
+		@Override
+		QuerySort toNotionSort() {
+			return new QuerySort(property, null, direction.getNotionDirection());
+		}
+
+		@Override
+		public String toString() {
+			return "%s: %s".formatted(property, direction);
+		}
+
+	}
+
+	private static class TimestampSort extends Sort {
+
+		private final Timestamp timestamp;
+
+		private final Direction direction;
+
+		private TimestampSort(Timestamp timestamp, Direction direction) {
+			this.timestamp = Objects.requireNonNull(timestamp);
+			this.direction = Objects.requireNonNull(direction);
+		}
+
+		@Override
+		QuerySort toNotionSort() {
+			return new QuerySort(null, timestamp.getNotionTimestamp(), direction.getNotionDirection());
+		}
+
+		@Override
+		public String toString() {
+			return "%s: %s".formatted(timestamp, direction);
 		}
 
 	}

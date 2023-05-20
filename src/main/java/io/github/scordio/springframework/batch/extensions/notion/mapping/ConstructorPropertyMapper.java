@@ -19,8 +19,7 @@ import java.lang.reflect.Constructor;
 import java.util.Arrays;
 
 /**
- * {@link NotionPropertyMapper} implementation for types with a constructor with
- * arguments.
+ * {@link PropertyMapper} implementation for types with a constructor with arguments.
  * <p>
  * It requires the constructor to be unique and its argument names to match the Notion
  * item property names (case-insensitive).
