@@ -45,14 +45,13 @@ class SortTests {
 		QuerySort result = underTest.toNotionSort();
 		// THEN
 		then(result) //
-			.returns(direction, from(QuerySort::getDirection)) //
-			.returns(property, from(QuerySort::getProperty)) //
+			.returns(direction, from(QuerySort::getDirection))
+			.returns(property, from(QuerySort::getProperty))
 			.returns(timestamp, from(QuerySort::getTimestamp));
 	}
 
 	static Stream<Arguments> toNotionSort() {
-		return Stream.of( //
-				arguments(Sort.by("property"), "property", null, Ascending),
+		return Stream.of(arguments(Sort.by("property"), "property", null, Ascending),
 				arguments(Sort.by("property", ASCENDING), "property", null, Ascending),
 				arguments(Sort.by("property", DESCENDING), "property", null, Descending),
 				arguments(Sort.by(CREATED_TIME), null, CreatedTime, Ascending),

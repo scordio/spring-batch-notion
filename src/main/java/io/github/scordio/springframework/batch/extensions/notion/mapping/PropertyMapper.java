@@ -27,7 +27,8 @@ public interface PropertyMapper<T> {
 
 	/**
 	 * Map the given item properties into an object of type {@code T}.
-	 * @param properties property value objects, keyed by property name
+	 * @param properties unmodifiable map containing the property value objects, keyed by
+	 * property name
 	 * @return the populated object
 	 */
 	T map(Map<String, ?> properties);

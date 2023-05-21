@@ -158,9 +158,9 @@ public class NotionDatabaseItemReader<T> extends AbstractPaginatedDataItemReader
 		nextCursor = queryResults.getNextCursor();
 
 		return queryResults.getResults()
-			.stream() //
-			.map(NotionDatabaseItemReader::getProperties) //
-			.map(properties -> propertyMapper.map(properties)) //
+			.stream()
+			.map(NotionDatabaseItemReader::getProperties)
+			.map(properties -> propertyMapper.map(properties))
 			.iterator();
 	}
 
@@ -168,11 +168,24 @@ public class NotionDatabaseItemReader<T> extends AbstractPaginatedDataItemReader
 		return element.getProperties()
 			.entrySet()
 			.stream()
-			.collect(Collectors.toMap(Entry::getKey, entry -> getPropertyValue(entry.getValue())));
+			.collect(Collectors.toUnmodifiableMap(Entry::getKey, entry -> getPropertyValue(entry.getValue())));
 	}
 
-	private static String getPropertyValue(PageProperty property) {
-		return property.getTitle() != null ? getPlainText(property.getTitle()) : getPlainText(property.getRichText());
+	private static Object getPropertyValue(PageProperty property) {
+		return switch (Objects.requireNonNull(property.getType())) {
+			case Checkbox -> property.getCheckbox();
+			case CreatedBy -> property.getCreatedBy().getName();
+			case CreatedTime -> property.getCreatedTime();
+			case Date -> property.getDate();
+			case Email -> property.getEmail();
+			case LastEditedBy -> property.getLastEditedBy().getName();
+			case LastEditedTime -> property.getLastEditedTime();
+			case PhoneNumber -> property.getPhoneNumber();
+			case RichText -> getPlainText(property.getRichText());
+			case Title -> getPlainText(property.getTitle());
+			case Url -> property.getUrl();
+			default -> throw new IllegalArgumentException("Unsupported type: " + property.getType());
+		};
 	}
 
 	private static String getPlainText(List<RichText> texts) {

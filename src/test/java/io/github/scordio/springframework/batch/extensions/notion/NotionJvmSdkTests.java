@@ -33,7 +33,7 @@ class NotionJvmSdkTests {
 			resideInAPackage("notion.api..");
 
 	@ArchTest
-	void notion_jvm_sdk_types_should_not_be_exposed(JavaClasses classes) {
+	void library_types_should_not_be_exposed(JavaClasses classes) {
 		// @formatter:off
 		ArchRule rule = methods()
 				.that().arePublic().or().areProtected()
