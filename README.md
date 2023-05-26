@@ -39,7 +39,7 @@ NotionDatabaseItemReader<Item> itemReader() {
     NotionDatabaseItemReader<Item> reader = new NotionDatabaseItemReader<>();
     reader.setToken(System.getenv("NOTION_TOKEN"));
     reader.setDatabaseId("XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"); // UUID
-    reader.setPropertiesMapper(new BeanWrapperPropertyMapper()); // assuming `Item` is a JavaBean — more below
+    reader.setPropertiesMapper(new CustomPropertyMapper());
     return reader;
 }
 ```
@@ -57,7 +57,7 @@ The following configuration options are available:
 
 In addition to the Notion specific configuration options, all the configuration options of the Spring Batch [`AbstractPaginatedDataItemReader`](https://docs.spring.io/spring-batch/docs/current/api/org/springframework/batch/item/data/AbstractPaginatedDataItemReader.html) are supported.
 
-## Property Mapper
+## PropertyMapper
 
 The `NotionDatabaseItemReader` requires a `PropertyMapper` to map the properties of a Notion item into an object.
 
@@ -69,7 +69,7 @@ The following `PropertyMapper` implementations are provided out of the box.
 | `ConstructorPropertyMapper` | Supports types with a constructor with arguments. Requires the constructor to be unique and its argument names to match the Notion item property names (case-insensitive). |
 | `RecordPropertyMapper`      | Supports Java records. It uses the record canonical constructor and requires the record component names to match the Notion item property names (case-insensitive).        |
 
-All implementations expose two constructors:
+All implementations above offer two constructors:
 * One accepting the `Class` instance of the type to be mapped
 * One without parameters, for cases where the type to be mapped can be inferred by the generic type of the variable or method enclosing the constructor declaration
 
