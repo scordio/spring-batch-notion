@@ -211,6 +211,13 @@ public class NotionDatabaseItemReader<T> extends AbstractPaginatedDataItemReader
 	}
 
 	@Override
+	protected void jumpToItem(int itemIndex) throws Exception {
+		for (int i = 0; i < itemIndex; i++) {
+			read();
+		}
+	}
+
+	@Override
 	public void afterPropertiesSet() {
 		Assert.state(token != null, "'token' must be set");
 		Assert.state(databaseId != null, "'databaseId' must be set");
