@@ -25,7 +25,7 @@ import java.util.Objects;
  * Sort conditions to order the entries returned from a database query. The direction
  * defaults to {@link Direction#DEFAULT_DIRECTION}.
  */
-public abstract class Sort {
+public abstract sealed class Sort {
 
 	public static final Direction DEFAULT_DIRECTION = Direction.ASCENDING;
 
@@ -126,7 +126,7 @@ public abstract class Sort {
 
 	abstract QuerySort toNotionSort();
 
-	private static class PropertySort extends Sort {
+	private static final class PropertySort extends Sort {
 
 		private final String property;
 
@@ -149,7 +149,7 @@ public abstract class Sort {
 
 	}
 
-	private static class TimestampSort extends Sort {
+	private static final class TimestampSort extends Sort {
 
 		private final Timestamp timestamp;
 
