@@ -18,6 +18,7 @@ package io.github.scordio.springframework.batch.extensions.notion.it;
 import io.github.scordio.springframework.batch.extensions.notion.Sort.Direction;
 import io.github.scordio.springframework.batch.extensions.notion.Sort.Timestamp;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.UUID;
@@ -29,28 +30,43 @@ public class RequestBodies {
 	}
 
 	public static String queryRequest(UUID startCursor, int pageSize, JSONObject... sorts) {
-		JSONObject jsonObject = new JSONObject();
+		try {
+			JSONObject jsonObject = new JSONObject();
 
-		if (sorts.length > 0) {
-			jsonObject.put("sorts", new JSONArray(sorts));
+			if (sorts.length > 0) {
+				jsonObject.put("sorts", new JSONArray(sorts));
+			}
+
+			return jsonObject //
+				.put("page_size", pageSize)
+				.putOpt("start_cursor", startCursor != null ? startCursor.toString() : null)
+				.toString();
 		}
-
-		return jsonObject //
-			.put("page_size", pageSize)
-			.putOpt("start_cursor", startCursor != null ? startCursor.toString() : null)
-			.toString();
+		catch (JSONException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	public static JSONObject sortByProperty(String property, Direction direction) {
-		return new JSONObject() //
-			.put("property", property)
-			.put("direction", direction.name().toLowerCase());
+		try {
+			return new JSONObject() //
+				.put("property", property)
+				.put("direction", direction.name().toLowerCase());
+		}
+		catch (JSONException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	public static JSONObject sortByTimestamp(String property, Timestamp timestamp) {
-		return new JSONObject() //
-			.put("property", property)
-			.put("timestamp", timestamp.name().toLowerCase());
+		try {
+			return new JSONObject() //
+				.put("property", property)
+				.put("timestamp", timestamp.name().toLowerCase());
+		}
+		catch (JSONException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 }

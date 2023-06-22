@@ -16,6 +16,7 @@
 package io.github.scordio.springframework.batch.extensions.notion.it;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.time.Instant;
@@ -31,64 +32,50 @@ public class ResponseBodies {
 	}
 
 	public static String queryResponse(UUID nextCursor, JSONObject... results) {
-		return new JSONObject() //
-			.put("object", "list")
-			.put("results", new JSONArray(results))
-			.put("next_cursor", nextCursor != null ? nextCursor.toString() : null)
-			.put("has_more", nextCursor != null)
-			.put("type", "page")
-			.put("page", new JSONObject())
-			.toString();
+		try {
+			return new JSONObject() //
+				.put("object", "list")
+				.put("results", new JSONArray(results))
+				.put("next_cursor", nextCursor != null ? nextCursor.toString() : null)
+				.put("has_more", nextCursor != null)
+				.put("type", "page")
+				.put("page", new JSONObject())
+				.toString();
+		}
+		catch (JSONException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	public static JSONObject result(UUID id, UUID databaseId, Map<?, ?> properties) {
-		Instant now = Instant.now();
+		try {
+			Instant now = Instant.now();
 
-		return new JSONObject() //
-			.put("object", "page")
-			.put("id", id.toString())
-			.put("created_time", now.toString())
-			.put("last_edited_time", now.toString())
-			.put("created_by", new JSONObject())
-			.put("last_edited_by", new JSONObject())
-			.put("parent", new JSONObject() //
-				.put("type", "database_id")
-				.put("database_id", databaseId.toString()))
-			.put("archived", false)
-			.put("properties", new JSONObject(properties))
-			.put("url", "https://www.notion.so/" + randomUUID().toString().replace("-", ""));
+			return new JSONObject() //
+				.put("object", "page")
+				.put("id", id.toString())
+				.put("created_time", now.toString())
+				.put("last_edited_time", now.toString())
+				.put("created_by", new JSONObject())
+				.put("last_edited_by", new JSONObject())
+				.put("parent", new JSONObject() //
+					.put("type", "database_id")
+					.put("database_id", databaseId.toString()))
+				.put("archived", false)
+				.put("properties", new JSONObject(properties))
+				.put("url", "https://www.notion.so/" + randomUUID().toString().replace("-", ""));
+		}
+		catch (JSONException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	public static JSONObject title(String value) {
-		JSONArray jsonArray = new JSONArray();
+		try {
+			JSONArray jsonArray = new JSONArray();
 
-		if (value != null) {
-			jsonArray.put(new JSONObject() //
-				.put("type", "text")
-				.put("text", new JSONObject() //
-					.put("content", value))
-				.put("annotations", new JSONObject() //
-					.put("bold", false)
-					.put("italic", false)
-					.put("strikethrough", false)
-					.put("underline", false)
-					.put("code", false)
-					.put("color", "default"))
-				.put("plain_text", value));
-		}
-
-		return new JSONObject() //
-			.put("id", "title")
-			.put("type", "title")
-			.put("title", jsonArray);
-	}
-
-	public static JSONObject richText(String value) {
-		return new JSONObject() //
-			.put("id", "JV%3B%3F")
-			.put("type", "rich_text")
-			.put("rich_text", new JSONArray() //
-				.put(new JSONObject() //
+			if (value != null) {
+				jsonArray.put(new JSONObject() //
 					.put("type", "text")
 					.put("text", new JSONObject() //
 						.put("content", value))
@@ -99,7 +86,41 @@ public class ResponseBodies {
 						.put("underline", false)
 						.put("code", false)
 						.put("color", "default"))
-					.put("plain_text", value)));
+					.put("plain_text", value));
+			}
+
+			return new JSONObject() //
+				.put("id", "title")
+				.put("type", "title")
+				.put("title", jsonArray);
+		}
+		catch (JSONException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	public static JSONObject richText(String value) {
+		try {
+			return new JSONObject() //
+				.put("id", "JV%3B%3F")
+				.put("type", "rich_text")
+				.put("rich_text", new JSONArray() //
+					.put(new JSONObject() //
+						.put("type", "text")
+						.put("text", new JSONObject() //
+							.put("content", value))
+						.put("annotations", new JSONObject() //
+							.put("bold", false)
+							.put("italic", false)
+							.put("strikethrough", false)
+							.put("underline", false)
+							.put("code", false)
+							.put("color", "default"))
+						.put("plain_text", value)));
+		}
+		catch (JSONException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 }
