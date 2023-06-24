@@ -15,6 +15,7 @@
 
   <name>Spring Batch Notion</name>
   <description>Spring Batch extension for Notion</description>
+  <url>https://github.com/scordio/spring-batch-notion</url>
   <inceptionYear>2023</inceptionYear>
   <organization>
     <name>Stefano Cordio</name>
@@ -34,6 +35,10 @@
       <url>https://github.com/scordio</url>
     </developer>
   </developers>
+
+  <scm>
+    <url>https://github.com/scordio/spring-batch-notion</url>
+  </scm>
 
   <properties>
     <java.version>17</java.version>
