@@ -2,8 +2,6 @@
 
 This project provides a [Spring Batch][] extension module that adds support for [Notion][].
 
-Currently, only an `ItemReader` is provided but more will be added in the future.
-
 ## Compatibility
 
 Spring Batch Notion is based on Spring Batch 5 and tested on Spring Boot 3, thus requiring at least Java 17.
@@ -57,7 +55,7 @@ The following configuration options are available:
 
 In addition to the Notion specific configuration options, all the configuration options of the Spring Batch [`AbstractPaginatedDataItemReader`](https://docs.spring.io/spring-batch/docs/current/api/org/springframework/batch/item/data/AbstractPaginatedDataItemReader.html) are supported.
 
-## PropertyMapper
+### PropertyMapper
 
 The `NotionDatabaseItemReader` requires a `PropertyMapper` to map the properties of a Notion item into an object.
 
@@ -74,6 +72,10 @@ All implementations above offer two constructors:
 * One without parameters, for cases where the type to be mapped can be inferred by the generic type of the variable or method enclosing the constructor declaration
 
 In case none of the provided implementations is suitable, a custom one can be provided.
+
+## NotionDatabaseItemWriter
+
+Currently not provided but will be added in a future release.
 
 ## License
 
