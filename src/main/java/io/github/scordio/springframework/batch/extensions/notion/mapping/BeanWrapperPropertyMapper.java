@@ -53,7 +53,7 @@ public class BeanWrapperPropertyMapper<T> extends CaseInsensitivePropertyMapper<
 	}
 
 	@Override
-	T mapCaseInsensitive(LinkedCaseInsensitiveMap<?> properties) {
+	T mapCaseInsensitive(LinkedCaseInsensitiveMap<String> properties) {
 		T instance = BeanUtils.instantiateClass(constructor);
 		BeanWrapper beanWrapper = PropertyAccessorFactory.forBeanPropertyAccess(instance);
 		beanWrapper.setPropertyValues(properties);

@@ -38,7 +38,7 @@ abstract class ConstructorBasedPropertyMapper<T> extends CaseInsensitiveProperty
 	abstract Constructor<T> getConstructor(Class<T> type) throws NoSuchMethodException;
 
 	@Override
-	T mapCaseInsensitive(LinkedCaseInsensitiveMap<?> properties) {
+	T mapCaseInsensitive(LinkedCaseInsensitiveMap<String> properties) {
 		Object[] parameterValues = Arrays.stream(constructor.getParameters()) //
 			.map(Parameter::getName) //
 			.map(properties::get) //

@@ -31,6 +31,6 @@ public interface PropertyMapper<T> {
 	 * property name
 	 * @return the populated object
 	 */
-	T map(Map<String, ?> properties);
+	T map(Map<String, String> properties);
 
 }

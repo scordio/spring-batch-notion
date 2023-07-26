@@ -31,7 +31,7 @@ class TestData {
 
 	}
 
-	static Stream<Map<String, ?>> all_properties() {
+	static Stream<Map<String, String>> all_properties() {
 		return Stream.of(
 				// FIXME not working with BeanWrapperPropertyMapper
 				// Map.of("FIELD1", "Value1", "FIELD2", "Value2"), //
@@ -45,7 +45,7 @@ class TestData {
 
 	}
 
-	static Stream<Map<String, ?>> partial_properties() {
+	static Stream<Map<String, String>> partial_properties() {
 		return Stream.of(
 				// FIXME not working with BeanWrapperPropertyMapper
 				// Map.of("FIELD1", "Value1"), //

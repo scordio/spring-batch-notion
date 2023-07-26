@@ -37,7 +37,7 @@ class RecordPropertyMapperTests {
 
 		@ParameterizedTest
 		@AllPropertiesSource
-		void should_map_all_properties(Map<String, ?> properties) {
+		void should_map_all_properties(Map<String, String> properties) {
 			// GIVEN
 			PropertyMapper<TestRecord> underTest = new RecordPropertyMapper<>(TestRecord.class);
 			// WHEN
@@ -50,7 +50,7 @@ class RecordPropertyMapperTests {
 
 		@ParameterizedTest
 		@AllPropertiesSource
-		void should_map_all_properties_without_type_parameter(Map<String, ?> properties) {
+		void should_map_all_properties_without_type_parameter(Map<String, String> properties) {
 			// GIVEN
 			PropertyMapper<TestRecord> underTest = new RecordPropertyMapper<>();
 			// WHEN
@@ -73,7 +73,7 @@ class RecordPropertyMapperTests {
 
 		@ParameterizedTest
 		@PartialPropertiesSource
-		void should_map_partial_properties(Map<String, ?> properties) {
+		void should_map_partial_properties(Map<String, String> properties) {
 			// GIVEN
 			PropertyMapper<TestRecord> underTest = new RecordPropertyMapper<>(TestRecord.class);
 			// WHEN
@@ -105,7 +105,7 @@ class RecordPropertyMapperTests {
 
 		@ParameterizedTest
 		@AllPropertiesSource
-		void should_map_all_properties(Map<String, ?> properties) {
+		void should_map_all_properties(Map<String, String> properties) {
 			// GIVEN
 			PropertyMapper<TestRecord> underTest = new RecordPropertyMapper<>(TestRecord.class);
 			// WHEN

@@ -22,12 +22,12 @@ import java.util.Map;
 abstract class CaseInsensitivePropertyMapper<T> implements PropertyMapper<T> {
 
 	@Override
-	public T map(Map<String, ?> properties) {
-		LinkedCaseInsensitiveMap<Object> caseInsensitiveProperties = new LinkedCaseInsensitiveMap<>(properties.size());
+	public T map(Map<String, String> properties) {
+		LinkedCaseInsensitiveMap<String> caseInsensitiveProperties = new LinkedCaseInsensitiveMap<>(properties.size());
 		caseInsensitiveProperties.putAll(properties);
 		return mapCaseInsensitive(caseInsensitiveProperties);
 	}
 
-	abstract T mapCaseInsensitive(LinkedCaseInsensitiveMap<?> properties);
+	abstract T mapCaseInsensitive(LinkedCaseInsensitiveMap<String> properties);
 
 }

@@ -164,26 +164,17 @@ public class NotionDatabaseItemReader<T> extends AbstractPaginatedDataItemReader
 			.iterator();
 	}
 
-	private static Map<String, ?> getProperties(Page element) {
+	private static Map<String, String> getProperties(Page element) {
 		return element.getProperties()
 			.entrySet()
 			.stream()
 			.collect(Collectors.toUnmodifiableMap(Entry::getKey, entry -> getPropertyValue(entry.getValue())));
 	}
 
-	private static Object getPropertyValue(PageProperty property) {
-		return switch (Objects.requireNonNull(property.getType())) {
-			case Checkbox -> property.getCheckbox();
-			case CreatedBy -> property.getCreatedBy().getName();
-			case CreatedTime -> property.getCreatedTime();
-			case Date -> property.getDate();
-			case Email -> property.getEmail();
-			case LastEditedBy -> property.getLastEditedBy().getName();
-			case LastEditedTime -> property.getLastEditedTime();
-			case PhoneNumber -> property.getPhoneNumber();
+	private static String getPropertyValue(PageProperty property) {
+		return switch (property.getType()) {
 			case RichText -> getPlainText(property.getRichText());
 			case Title -> getPlainText(property.getTitle());
-			case Url -> property.getUrl();
 			default -> throw new IllegalArgumentException("Unsupported type: " + property.getType());
 		};
 	}
