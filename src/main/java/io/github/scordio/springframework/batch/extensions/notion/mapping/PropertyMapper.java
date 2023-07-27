@@ -18,7 +18,7 @@ package io.github.scordio.springframework.batch.extensions.notion.mapping;
 import java.util.Map;
 
 /**
- * Strategy interface for mapping Notion item properties into an object.
+ * Strategy interface for mapping the properties of a Notion item into a Java object.
  *
  * @param <T> the object type
  */

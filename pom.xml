@@ -116,6 +116,27 @@
   </dependencies>
 
   <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <configuration>
+            <additionalDependencies>
+              <dependency>
+                <groupId>com.google.code.findbugs</groupId>
+                <artifactId>jsr305</artifactId>
+                <version>3.0.2</version>
+              </dependency>
+            </additionalDependencies>
+            <failOnWarnings>true</failOnWarnings>
+            <links>
+              <link>https://docs.spring.io/spring-batch/docs/${spring-batch.version}/api/</link>
+            </links>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
     <plugins>
       <plugin>
         <groupId>com.mycila</groupId>

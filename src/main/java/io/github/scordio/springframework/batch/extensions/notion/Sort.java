@@ -27,6 +27,9 @@ import java.util.Objects;
  */
 public abstract sealed class Sort {
 
+	/**
+	 * Default direction of {@link Sort} conditions.
+	 */
 	public static final Direction DEFAULT_DIRECTION = Direction.ASCENDING;
 
 	/**

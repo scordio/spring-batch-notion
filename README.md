@@ -49,7 +49,7 @@ The following configuration options are available:
 | `baseUrl`        | no       | `https://api.notion.com/v1` | Base URL of the Notion API. A custom value can be provided for testing purposes (e.g., the URL of a [WireMock][] server). |
 | `databaseId`     | yes      | -                           | UUID of the database to read from.                                                                                        |
 | `pageSize`       | no       | `100`                       | Number of items to be read with each page. Must be greater than zero and less than or equal to 100.                       |
-| `propertyMapper` | yes      | -                           | The `PropertyMapper` responsible for mapping Notion item properties into a Java object.                                   |
+| `propertyMapper` | yes      | -                           | The `PropertyMapper` responsible for mapping properties of a Notion item into a Java object.                              |
 | `sorts`          | no       | `null`                      | `Sort` conditions to order the returned items. Each condition is applied following the declaration order.                 |
 | `token`          | yes      | -                           | The Notion integration token.                                                                                             |
 

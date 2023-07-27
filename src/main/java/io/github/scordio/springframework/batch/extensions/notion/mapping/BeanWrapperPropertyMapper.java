@@ -35,7 +35,7 @@ public class BeanWrapperPropertyMapper<T> extends CaseInsensitivePropertyMapper<
 	private final Constructor<T> constructor;
 
 	/**
-	 * Create a new {@link BeanWrapperPropertyMapper}.
+	 * Create a new {@link BeanWrapperPropertyMapper} for the given target type.
 	 * @param type type of the target object
 	 */
 	public BeanWrapperPropertyMapper(Class<T> type) {
@@ -43,9 +43,8 @@ public class BeanWrapperPropertyMapper<T> extends CaseInsensitivePropertyMapper<
 	}
 
 	/**
-	 * Create a new {@link BeanWrapperPropertyMapper}.
-	 * @param reified don't pass any values to it. It's a trick to detect the type you
-	 * want to map to.
+	 * Create a new {@link BeanWrapperPropertyMapper}, inferring the target type.
+	 * @param reified don't pass any values to it. It's a trick to detect the target type.
 	 */
 	@SafeVarargs
 	public BeanWrapperPropertyMapper(T... reified) {

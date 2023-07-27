@@ -48,9 +48,9 @@ import java.util.stream.Stream;
  * pages are requested as needed when the {@link #read()} method is called. On restart,
  * the reader will begin again at the same number item it left off at.
  * <p>
- * The implementation is thread-safe between calls to {@link #open(ExecutionContext)}, but
- * remember to use <code>saveState=false</code> if used in a multi-threaded client (no
- * restart available).
+ * This implementation is thread-safe between calls to {@link #open(ExecutionContext)},
+ * but remember to set <code>saveState</code> to <code>false</code> if used in a
+ * multi-threaded environment (no restart available).
  *
  * @param <T> Type of item to be read
  */
@@ -91,6 +91,8 @@ public class NotionDatabaseItemReader<T> extends AbstractPaginatedDataItemReader
 	/**
 	 * The base URL of the Notion API.
 	 * <p>
+	 * Defaults to {@value #DEFAULT_BASE_URL}.
+	 * <p>
 	 * A custom value can be provided for testing purposes (e.g., the URL of a WireMock
 	 * server).
 	 * @param baseUrl the base URL
@@ -100,7 +102,9 @@ public class NotionDatabaseItemReader<T> extends AbstractPaginatedDataItemReader
 	}
 
 	/**
-	 * The Notion integration token. Always required.
+	 * The Notion integration token.
+	 * <p>
+	 * Always required.
 	 * @param token the token
 	 */
 	public void setToken(String token) {
@@ -108,13 +112,22 @@ public class NotionDatabaseItemReader<T> extends AbstractPaginatedDataItemReader
 	}
 
 	/**
-	 * UUID of the database to read from. Always required.
+	 * UUID of the database to read from.
+	 * <p>
+	 * Always required.
 	 * @param databaseId the database UUID
 	 */
 	public void setDatabaseId(String databaseId) {
 		this.databaseId = Objects.requireNonNull(databaseId);
 	}
 
+	/**
+	 * The {@link PropertyMapper} responsible for mapping Notion item properties into a
+	 * Java object.
+	 * <p>
+	 * Always required.
+	 * @param propertyMapper the property mapper
+	 */
 	public void setPropertyMapper(PropertyMapper<T> propertyMapper) {
 		this.propertyMapper = Objects.requireNonNull(propertyMapper);
 	}
@@ -131,8 +144,10 @@ public class NotionDatabaseItemReader<T> extends AbstractPaginatedDataItemReader
 
 	/**
 	 * The number of items to be read with each page.
-	 * @param pageSize the number of items. Must be greater than zero and less than or
-	 * equal to 100.
+	 * <p>
+	 * Defaults to {@value #DEFAULT_PAGE_SIZE}.
+	 * @param pageSize the number of items. Must be greater than 0 and less than or equal
+	 * to 100.
 	 */
 	@Override
 	public void setPageSize(int pageSize) {
@@ -140,6 +155,9 @@ public class NotionDatabaseItemReader<T> extends AbstractPaginatedDataItemReader
 		super.setPageSize(pageSize);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected Iterator<T> doPageRead() {
 		if (!hasMore) {
@@ -183,6 +201,9 @@ public class NotionDatabaseItemReader<T> extends AbstractPaginatedDataItemReader
 		return texts.isEmpty() ? "" : texts.get(0).getPlainText();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected void doOpen() {
 		client = new NotionClient(token);
@@ -193,6 +214,9 @@ public class NotionDatabaseItemReader<T> extends AbstractPaginatedDataItemReader
 		hasMore = true;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected void doClose() {
 		client.close();
@@ -201,6 +225,9 @@ public class NotionDatabaseItemReader<T> extends AbstractPaginatedDataItemReader
 		hasMore = false;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected void jumpToItem(int itemIndex) throws Exception {
 		for (int i = 0; i < itemIndex; i++) {
@@ -208,6 +235,9 @@ public class NotionDatabaseItemReader<T> extends AbstractPaginatedDataItemReader
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void afterPropertiesSet() {
 		Assert.state(token != null, "'token' must be set");

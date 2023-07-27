@@ -29,7 +29,7 @@ import java.util.Arrays;
 public class ConstructorPropertyMapper<T> extends ConstructorBasedPropertyMapper<T> {
 
 	/**
-	 * Create a new {@link ConstructorPropertyMapper}.
+	 * Create a new {@link ConstructorPropertyMapper} for the given target type.
 	 * @param type type of the target object
 	 */
 	public ConstructorPropertyMapper(Class<T> type) {
@@ -37,9 +37,8 @@ public class ConstructorPropertyMapper<T> extends ConstructorBasedPropertyMapper
 	}
 
 	/**
-	 * Create a new {@link ConstructorPropertyMapper}.
-	 * @param reified don't pass any values to it. It's a trick to detect the type you
-	 * want to map to.
+	 * Create a new {@link ConstructorPropertyMapper}, inferring the target type.
+	 * @param reified don't pass any values to it. It's a trick to detect the target type.
 	 */
 	@SafeVarargs
 	public ConstructorPropertyMapper(T... reified) {

@@ -24,7 +24,7 @@ import java.util.Arrays;
 /**
  * {@link PropertyMapper} implementation for {@link Record Java records}.
  * <p>
- * It uses the record canonical constructor and requires the record component names to
+ * It uses the record's canonical constructor and requires the record's component names to
  * match the Notion item property names (case-insensitive).
  *
  * @param <T> the target type &mdash; must be a {@link Record}
@@ -32,7 +32,7 @@ import java.util.Arrays;
 public class RecordPropertyMapper<T extends Record> extends ConstructorBasedPropertyMapper<T> {
 
 	/**
-	 * Create a new {@link RecordPropertyMapper}.
+	 * Create a new {@link RecordPropertyMapper} for the given target type.
 	 * @param type type of the target record
 	 */
 	public RecordPropertyMapper(Class<T> type) {
@@ -40,9 +40,8 @@ public class RecordPropertyMapper<T extends Record> extends ConstructorBasedProp
 	}
 
 	/**
-	 * Create a new {@link RecordPropertyMapper}.
-	 * @param reified don't pass any values to it. It's a trick to detect the type you
-	 * want to map to.
+	 * Create a new {@link RecordPropertyMapper}, inferring the target type.
+	 * @param reified don't pass any values to it. It's a trick to detect the target type.
 	 */
 	@SafeVarargs
 	public RecordPropertyMapper(T... reified) {
