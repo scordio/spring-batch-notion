@@ -47,13 +47,13 @@ The following configuration options are available:
 | Property         | Required | Default                     | Description                                                                                                               |
 |------------------|----------|-----------------------------|---------------------------------------------------------------------------------------------------------------------------|
 | `baseUrl`        | no       | `https://api.notion.com/v1` | Base URL of the Notion API. A custom value can be provided for testing purposes (e.g., the URL of a [WireMock][] server). |
-| `databaseId`     | yes      | `null`                      | UUID of the database to read from.                                                                                        |
-| `pageSize`       | no       | 100                         | Number of items to be read with each page. Must be greater than zero and less than or equal to 100.                       |
-| `propertyMapper` | yes      | `null`                      | The `PropertyMapper` responsible for mapping Notion item properties into a Java object.                                   |
+| `databaseId`     | yes      | -                           | UUID of the database to read from.                                                                                        |
+| `pageSize`       | no       | `100`                       | Number of items to be read with each page. Must be greater than zero and less than or equal to 100.                       |
+| `propertyMapper` | yes      | -                           | The `PropertyMapper` responsible for mapping Notion item properties into a Java object.                                   |
 | `sorts`          | no       | `null`                      | `Sort` conditions to order the returned items. Each condition is applied following the declaration order.                 |
-| `token`          | yes      | `null`                      | The Notion integration token.                                                                                             |
+| `token`          | yes      | -                           | The Notion integration token.                                                                                             |
 
-In addition to the Notion specific configuration options, all the configuration options of the Spring Batch
+In addition to the Notion-specific configuration, all the configuration options of the Spring Batch
 [`AbstractPaginatedDataItemReader`](https://docs.spring.io/spring-batch/docs/current/api/org/springframework/batch/item/data/AbstractPaginatedDataItemReader.html)
 are supported.
 
@@ -61,8 +61,8 @@ are supported.
 
 The `NotionDatabaseItemReader` requires a `PropertyMapper` to map the properties of a Notion item into an object.
 
-Currently, only [`Title`](https://developers.notion.com/reference/property-object#title)
-and [`Rich Text`](https://developers.notion.com/reference/property-object#rich-text) properties are supported,
+Currently, only properties of type [Title](https://developers.notion.com/reference/property-object#title)
+and [Rich Text](https://developers.notion.com/reference/property-object#rich-text) are supported,
 and both are converted to strings.
 
 The following `PropertyMapper` implementations are provided out of the box.
