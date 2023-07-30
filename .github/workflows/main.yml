@@ -21,4 +21,4 @@ jobs:
           distribution: 'temurin'
           cache: maven
       - name: Test
-        run: ./mvnw $MAVEN_ARGS verify
+        run: ./mvnw $MAVEN_ARGS verify javadoc:javadoc
