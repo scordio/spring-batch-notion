@@ -165,7 +165,7 @@ public class NotionDatabaseItemReader<T> extends AbstractPaginatedDataItemReader
 		}
 
 		QueryDatabaseRequest request = new QueryDatabaseRequest(databaseId);
-		// request.setFilter(filter); TODO
+		// request.setFilter(filter); TODO gh-12
 		request.setSorts(sorts);
 		request.setStartCursor(nextCursor);
 		request.setPageSize(pageSize);
