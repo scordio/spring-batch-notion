@@ -135,6 +135,11 @@
             </links>
           </configuration>
         </plugin>
+        <plugin>
+          <groupId>org.jreleaser</groupId>
+          <artifactId>jreleaser-maven-plugin</artifactId>
+          <version>1.7.0</version>
+        </plugin>
       </plugins>
     </pluginManagement>
     <plugins>
@@ -192,4 +197,74 @@
       </plugin>
     </plugins>
   </build>
+
+  <profiles>
+    <profile>
+      <id>release</id>
+      <properties>
+        <altDeploymentRepository>local::file:./target/staging-deploy</altDeploymentRepository>
+      </properties>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>attach-javadoc</id>
+                <goals>
+                  <goal>jar</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>attach-source</id>
+                <goals>
+                  <goal>jar-no-fork</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.jreleaser</groupId>
+            <artifactId>jreleaser-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <phase>deploy</phase>
+                <goals>
+                  <goal>deploy</goal>
+                </goals>
+                <configuration>
+                  <jreleaser>
+                    <signing>
+                      <active>ALWAYS</active>
+                      <armored>true</armored>
+                    </signing>
+                    <deploy>
+                      <maven>
+                        <nexus2>
+                          <maven-central>
+                            <active>ALWAYS</active>
+                            <url>https://s01.oss.sonatype.org/service/local</url>
+                            <closeRepository>false</closeRepository>
+                            <releaseRepository>false</releaseRepository>
+                            <stagingRepositories>target/staging-deploy</stagingRepositories>
+                          </maven-central>
+                        </nexus2>
+                      </maven>
+                    </deploy>
+                  </jreleaser>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>
