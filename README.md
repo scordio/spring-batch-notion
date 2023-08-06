@@ -11,13 +11,11 @@ Spring Batch Notion is based on Spring Batch 5 and tested on Spring Boot 3, thus
 ### Maven
 
 ```xml
-<dependencies>
-  <dependency>
-    <groupId>io.github.scordio</groupId>
-    <artifactId>spring-batch-notion</artifactId>
-    <version>${spring-batch-notion.version}</version>
-  </dependency>
-</dependencies>
+<dependency>
+  <groupId>io.github.scordio</groupId>
+  <artifactId>spring-batch-notion</artifactId>
+  <version>${spring-batch-notion.version}</version>
+</dependency>
 ```
 
 ### Gradle
