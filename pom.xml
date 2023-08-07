@@ -132,6 +132,7 @@
             <failOnWarnings>true</failOnWarnings>
             <links>
               <link>https://docs.spring.io/spring-batch/docs/${spring-batch.version}/api/</link>
+              <link>https://docs.spring.io/spring-framework/docs/${spring-framework.version}/api/</link>
             </links>
           </configuration>
         </plugin>
