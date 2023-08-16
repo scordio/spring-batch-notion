@@ -42,7 +42,7 @@
 
   <properties>
     <java.version>17</java.version>
-    <notion-sdk-jvm.version>1.8.0</notion-sdk-jvm.version>
+    <notion-sdk-jvm.version>1.8.1</notion-sdk-jvm.version>
   </properties>
 
   <dependencyManagement>
