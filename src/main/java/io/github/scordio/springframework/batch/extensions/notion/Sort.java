@@ -88,14 +88,14 @@ public abstract sealed class Sort {
 		 */
 		LAST_EDITED_TIME(QuerySortTimestamp.LastEditedTime);
 
-		private final QuerySortTimestamp notionTimestamp;
+		private final QuerySortTimestamp querySortTimestamp;
 
-		Timestamp(QuerySortTimestamp notionTimestamp) {
-			this.notionTimestamp = notionTimestamp;
+		Timestamp(QuerySortTimestamp querySortTimestamp) {
+			this.querySortTimestamp = querySortTimestamp;
 		}
 
-		private QuerySortTimestamp getNotionTimestamp() {
-			return notionTimestamp;
+		private QuerySortTimestamp getQuerySortTimestamp() {
+			return querySortTimestamp;
 		}
 
 	}
@@ -115,19 +115,19 @@ public abstract sealed class Sort {
 		 */
 		DESCENDING(QuerySortDirection.Descending);
 
-		private final QuerySortDirection notionDirection;
+		private final QuerySortDirection querySortDirection;
 
-		Direction(QuerySortDirection notionDirection) {
-			this.notionDirection = notionDirection;
+		Direction(QuerySortDirection querySortDirection) {
+			this.querySortDirection = querySortDirection;
 		}
 
-		private QuerySortDirection getNotionDirection() {
-			return notionDirection;
+		private QuerySortDirection getQuerySortDirection() {
+			return querySortDirection;
 		}
 
 	}
 
-	abstract QuerySort toNotionSort();
+	abstract QuerySort toQuerySort();
 
 	private static final class PropertySort extends Sort {
 
@@ -141,8 +141,8 @@ public abstract sealed class Sort {
 		}
 
 		@Override
-		QuerySort toNotionSort() {
-			return new QuerySort(property, null, direction.getNotionDirection());
+		QuerySort toQuerySort() {
+			return new QuerySort(property, null, direction.getQuerySortDirection());
 		}
 
 		@Override
@@ -164,8 +164,8 @@ public abstract sealed class Sort {
 		}
 
 		@Override
-		QuerySort toNotionSort() {
-			return new QuerySort(null, timestamp.getNotionTimestamp(), direction.getNotionDirection());
+		QuerySort toQuerySort() {
+			return new QuerySort(null, timestamp.getQuerySortTimestamp(), direction.getQuerySortDirection());
 		}
 
 		@Override

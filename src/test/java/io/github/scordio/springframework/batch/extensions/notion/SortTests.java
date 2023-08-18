@@ -40,9 +40,9 @@ class SortTests {
 
 	@ParameterizedTest
 	@MethodSource
-	void toNotionSort(Sort underTest, String property, QuerySortTimestamp timestamp, QuerySortDirection direction) {
+	void toQuerySort(Sort underTest, String property, QuerySortTimestamp timestamp, QuerySortDirection direction) {
 		// WHEN
-		QuerySort result = underTest.toNotionSort();
+		QuerySort result = underTest.toQuerySort();
 		// THEN
 		then(result) //
 			.returns(direction, from(QuerySort::getDirection))
@@ -50,8 +50,9 @@ class SortTests {
 			.returns(timestamp, from(QuerySort::getTimestamp));
 	}
 
-	static Stream<Arguments> toNotionSort() {
-		return Stream.of(arguments(Sort.by("property"), "property", null, Ascending),
+	static Stream<Arguments> toQuerySort() {
+		return Stream.of( //
+				arguments(Sort.by("property"), "property", null, Ascending),
 				arguments(Sort.by("property", ASCENDING), "property", null, Ascending),
 				arguments(Sort.by("property", DESCENDING), "property", null, Descending),
 				arguments(Sort.by(CREATED_TIME), null, CreatedTime, Ascending),

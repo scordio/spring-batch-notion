@@ -137,9 +137,11 @@ public class NotionDatabaseItemReader<T> extends AbstractPaginatedDataItemReader
 	 * <p>
 	 * Each condition is applied following the declaration order.
 	 * @param sorts the {@link Sort} conditions
+	 * @see Sort#by(String)
+	 * @see Sort#by(Sort.Timestamp)
 	 */
 	public void setSorts(Sort... sorts) {
-		this.sorts = Stream.of(sorts).map(Sort::toNotionSort).toList();
+		this.sorts = Stream.of(sorts).map(Sort::toQuerySort).toList();
 	}
 
 	/**
