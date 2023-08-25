@@ -33,7 +33,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        spring: [3.0.0, 3.0.10, 3.1.0]
+        spring: [3.0.0, 3.0.10, 3.1.0, 3.2.0-M2]
     runs-on: ubuntu-latest
 
     steps:
@@ -50,4 +50,4 @@ jobs:
           -DparentVersion=${{ matrix.spring }}
           -DskipResolution
       - name: Test
-        run: ./mvnw $MAVEN_ARGS verify
+        run: ./mvnw $MAVEN_ARGS -Pspring-milestone verify
