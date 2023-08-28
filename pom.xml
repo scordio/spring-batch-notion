@@ -17,9 +17,6 @@
   <description>Spring Batch extension for Notion</description>
   <url>https://github.com/scordio/spring-batch-notion</url>
   <inceptionYear>2023</inceptionYear>
-  <organization>
-    <name>Stefano Cordio</name>
-  </organization>
   <licenses>
     <license>
       <name>Apache 2.0</name>
