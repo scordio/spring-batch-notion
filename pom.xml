@@ -183,12 +183,27 @@
       </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
-        <artifactId>tidy-maven-plugin</artifactId>
-        <version>1.2.0</version>
+        <artifactId>flatten-maven-plugin</artifactId>
+        <version>1.5.0</version>
         <executions>
           <execution>
+            <id>flatten</id>
+            <phase>process-resources</phase>
             <goals>
-              <goal>check</goal>
+              <goal>flatten</goal>
+            </goals>
+            <configuration>
+              <flattenMode>ossrh</flattenMode>
+              <pomElements>
+                <profiles>remove</profiles>
+              </pomElements>
+            </configuration>
+          </execution>
+          <execution>
+            <id>flatten-clean</id>
+            <phase>clean</phase>
+            <goals>
+              <goal>clean</goal>
             </goals>
           </execution>
         </executions>
