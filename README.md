@@ -1,4 +1,7 @@
-# Spring Batch Notion
+# Spring Batch Notion [![Maven Central](https://img.shields.io/maven-central/v/io.github.scordio/spring-batch-notion?label=Maven%20Central)](https://mvnrepository.com/artifact/io.github.scordio/spring-batch-notion) [![javadoc](https://javadoc.io/badge2/io.github.scordio/spring-batch-notion/javadoc.svg)](https://javadoc.io/doc/io.github.scordio/spring-batch-notion)
+
+[![CI](https://github.com/scordio/spring-batch-notion/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/scordio/spring-batch-notion/actions/workflows/main.yml?query=branch%3Amain)
+[![Cross-Version](https://github.com/scordio/spring-batch-notion/actions/workflows/cross-version.yml/badge.svg?branch=main)](https://github.com/scordio/spring-batch-notion/actions/workflows/cross-version.yml?query=branch%3Amain)
 
 This project provides a [Spring Batch][] extension module that adds support for [Notion][].
 
