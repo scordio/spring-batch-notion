@@ -22,8 +22,11 @@ import notion.api.v1.model.databases.query.sort.QuerySortTimestamp;
 import java.util.Objects;
 
 /**
- * Sort conditions to order the entries returned from a database query. The direction
- * defaults to {@link Direction#DEFAULT_DIRECTION}.
+ * Sort conditions to order the entries returned from a database query.
+ * <p>
+ * Sorts operate on property values or entry timestamps, and can be combined.
+ * <p>
+ * The direction defaults to {@link Direction#DEFAULT_DIRECTION}.
  */
 public abstract sealed class Sort {
 
