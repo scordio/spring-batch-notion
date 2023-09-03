@@ -7,7 +7,7 @@ env:
 
 jobs:
 
-  test_java:
+  java:
 
     name: Java ${{ matrix.java }}
     strategy:
@@ -27,7 +27,7 @@ jobs:
       - name: Test
         run: ./mvnw $MAVEN_ARGS verify
 
-  test_spring_boot:
+  spring_boot:
 
     name: Spring Boot ${{ matrix.spring }}
     strategy:
