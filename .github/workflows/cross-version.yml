@@ -33,7 +33,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        spring: [3.0.0, 3.0.10, 3.1.0, 3.2.0-M2]
+        spring: [3.0.0, 3.0.11, 3.1.0, 3.2.0-M3]
     runs-on: ubuntu-latest
 
     steps:
