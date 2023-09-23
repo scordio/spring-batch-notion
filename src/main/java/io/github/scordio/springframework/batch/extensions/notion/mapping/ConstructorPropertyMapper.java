@@ -21,7 +21,7 @@ import java.util.Arrays;
 /**
  * {@link PropertyMapper} implementation for types with a constructor with arguments.
  * <p>
- * It requires the constructor to be unique and its argument names to match the Notion
+ * It requires the constructor to be unique and its parameter names to match the Notion
  * item property names (case-insensitive).
  *
  * @param <T> the target type
