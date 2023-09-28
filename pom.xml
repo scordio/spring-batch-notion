@@ -147,7 +147,6 @@
         <artifactId>license-maven-plugin</artifactId>
         <version>4.3</version>
         <configuration>
-          <errorMessage>Some files do not have the expected license header. Run license:format to update them.</errorMessage>
           <licenseSets>
             <licenseSet>
               <header>com/mycila/maven/plugin/license/templates/APACHE-2.txt</header>
