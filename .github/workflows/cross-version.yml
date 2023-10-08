@@ -7,18 +7,34 @@ env:
 
 jobs:
 
+  java_17:
+
+    name: Java 17
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'zulu'
+          cache: maven
+      - name: Test
+        run: ./mvnw $MAVEN_ARGS verify
+
   java:
 
     name: Java ${{ matrix.java }}
     strategy:
       fail-fast: false
       matrix:
-        java: [21, 22]
+        java: [22]
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
-      - name: Setup Java
+      - name: Set up Java
         uses: oracle-actions/setup-java@v1
         with:
           website: jdk.java.net
@@ -38,11 +54,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - name: Set up JDK 17
+      - name: Set up Java
         uses: actions/setup-java@v3
         with:
-          java-version: '17'
-          distribution: 'temurin'
+          java-version: '21'
+          distribution: 'zulu'
           cache: maven
       - name: Set Spring Boot ${{ matrix.spring }}
         run: >

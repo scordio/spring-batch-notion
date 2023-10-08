@@ -7,18 +7,18 @@ env:
 
 jobs:
 
-  java_17:
+  java_21:
 
-    name: Java 17
+    name: Java 21
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
-      - name: Set up JDK 17
+      - name: Set up Java
         uses: actions/setup-java@v3
         with:
-          java-version: '17'
-          distribution: 'temurin'
+          java-version: '21'
+          distribution: 'zulu'
           cache: maven
       - name: Test
         run: ./mvnw $MAVEN_ARGS verify
@@ -30,11 +30,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - name: Set up JDK 17
+      - name: Set up Java
         uses: actions/setup-java@v3
         with:
-          java-version: '17'
-          distribution: 'temurin'
+          java-version: '21'
+          distribution: 'zulu'
           cache: maven
       - name: Generate Javadoc
         run: ./mvnw $MAVEN_ARGS javadoc:javadoc
