@@ -127,6 +127,9 @@ public abstract sealed class Sort {
 
 	}
 
+	private Sort() {
+	}
+
 	abstract QuerySort toQuerySort();
 
 	private static final class PropertySort extends Sort {
