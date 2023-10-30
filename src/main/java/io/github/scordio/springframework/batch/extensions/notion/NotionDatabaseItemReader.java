@@ -20,6 +20,7 @@ import notion.api.v1.NotionClient;
 import notion.api.v1.http.JavaNetHttpClient;
 import notion.api.v1.logging.Slf4jLogger;
 import notion.api.v1.model.databases.QueryResults;
+import notion.api.v1.model.databases.query.filter.QueryTopLevelFilter;
 import notion.api.v1.model.databases.query.sort.QuerySort;
 import notion.api.v1.model.pages.Page;
 import notion.api.v1.model.pages.PageProperty;
@@ -67,6 +68,8 @@ public class NotionDatabaseItemReader<T> extends AbstractPaginatedDataItemReader
 	private String databaseId;
 
 	private PropertyMapper<T> propertyMapper;
+
+	private QueryTopLevelFilter filter;
 
 	private List<QuerySort> sorts;
 
@@ -133,9 +136,22 @@ public class NotionDatabaseItemReader<T> extends AbstractPaginatedDataItemReader
 	}
 
 	/**
+	 * {@link Filter} condition to limit the returned items.
+	 * <p>
+	 * If no filter is provided, all the items in the database will be returned.
+	 * @param filter the {@link Filter} conditions
+	 * @see Filter#where()
+	 * @see Filter#where(Filter)
+	 */
+	public void setFilter(Filter filter) {
+		this.filter = filter.toQueryTopLevelFilter();
+	}
+
+	/**
 	 * {@link Sort} conditions to order the returned items.
 	 * <p>
-	 * Each condition is applied following the declaration order.
+	 * Each condition is applied following the declaration order, i.e., earlier sorts take
+	 * precedence over later ones.
 	 * @param sorts the {@link Sort} conditions
 	 * @see Sort#by(String)
 	 * @see Sort#by(Sort.Timestamp)
@@ -167,7 +183,7 @@ public class NotionDatabaseItemReader<T> extends AbstractPaginatedDataItemReader
 		}
 
 		QueryDatabaseRequest request = new QueryDatabaseRequest(databaseId);
-		// request.setFilter(filter); TODO gh-12
+		request.setFilter(filter);
 		request.setSorts(sorts);
 		request.setStartCursor(nextCursor);
 		request.setPageSize(pageSize);
