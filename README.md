@@ -9,6 +9,8 @@ This project provides a [Spring Batch][] extension module that adds support for 
 
 Spring Batch Notion is based on Spring Batch 5 and tested on Spring Boot 3, thus requiring at least Java 17.
 
+Compatibility is guaranteed only with the Spring Boot versions under [OSS support](https://spring.io/projects/spring-boot/#support). 
+
 ## Getting Started
 
 ### Maven
