@@ -15,12 +15,14 @@
  */
 package io.github.scordio.springframework.batch.extensions.notion.it.pagination;
 
+import com.github.tomakehurst.wiremock.WireMockServer;
+import com.maciejwalkowiak.wiremock.spring.InjectWireMock;
 import io.github.scordio.springframework.batch.extensions.notion.NotionDatabaseItemReader;
 import io.github.scordio.springframework.batch.extensions.notion.it.IntegrationTest;
 import io.github.scordio.springframework.batch.extensions.notion.it.pagination.MultiplePagesTests.PaginatedJob.Item;
 import io.github.scordio.springframework.batch.extensions.notion.mapping.RecordPropertyMapper;
 import org.json.JSONObject;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
@@ -40,7 +42,6 @@ import java.util.Map;
 import java.util.UUID;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.equalToJson;
-import static com.github.tomakehurst.wiremock.client.WireMock.givenThat;
 import static com.github.tomakehurst.wiremock.client.WireMock.okJson;
 import static com.github.tomakehurst.wiremock.client.WireMock.post;
 import static io.github.scordio.springframework.batch.extensions.notion.it.RequestBodies.queryRequest;
@@ -66,8 +67,8 @@ class MultiplePagesTests {
 	@Autowired
 	ListItemWriter<Item> itemWriter;
 
-	@BeforeAll
-	static void wiremockStubbing() {
+	@BeforeEach
+	void wiremockStubbing(@InjectWireMock("wiremock") WireMockServer wiremock) {
 		UUID thirdResultId = randomUUID();
 
 		JSONObject firstResult = result(randomUUID(), DATABASE_ID,
@@ -77,11 +78,11 @@ class MultiplePagesTests {
 		JSONObject thirdResult = result(thirdResultId, DATABASE_ID,
 				Map.of("Name", title(""), "Value", richText("abc-1234")));
 
-		givenThat(post("/databases/%s/query".formatted(DATABASE_ID)) //
+		wiremock.givenThat(post("/databases/%s/query".formatted(DATABASE_ID)) //
 			.withRequestBody(equalToJson(queryRequest(PAGE_SIZE)))
 			.willReturn(okJson(queryResponse(thirdResultId, firstResult, secondResult))));
 
-		givenThat(post("/databases/%s/query".formatted(DATABASE_ID)) //
+		wiremock.givenThat(post("/databases/%s/query".formatted(DATABASE_ID)) //
 			.withRequestBody(equalToJson(queryRequest(thirdResultId, PAGE_SIZE)))
 			.willReturn(okJson(queryResponse(thirdResult))));
 	}
@@ -104,8 +105,8 @@ class MultiplePagesTests {
 	@SpringBootApplication
 	static class PaginatedJob {
 
-		@Value("${wiremock.server.port}")
-		private int wiremockPort;
+		@Value("${wiremock.server.url}")
+		private String wiremockUrl;
 
 		@Bean
 		Job job(JobRepository jobRepository, Step step) {
@@ -128,7 +129,7 @@ class MultiplePagesTests {
 			reader.setSaveState(false);
 
 			reader.setToken("token");
-			reader.setBaseUrl("http://localhost:" + wiremockPort);
+			reader.setBaseUrl(wiremockUrl);
 			reader.setDatabaseId(DATABASE_ID.toString());
 
 			reader.setPageSize(PAGE_SIZE);
