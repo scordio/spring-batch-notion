@@ -49,7 +49,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        spring: [3.1.0, 3.1.10, 3.3.0-M3]
+        spring: [3.1.0, 3.1.11, 3.3.0-RC1]
     runs-on: ubuntu-latest
 
     steps:
