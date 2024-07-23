@@ -40,13 +40,18 @@ import org.springframework.transaction.PlatformTransactionManager;
 import java.util.Map;
 import java.util.UUID;
 
+import static com.github.tomakehurst.wiremock.client.WireMock.containing;
+import static com.github.tomakehurst.wiremock.client.WireMock.equalTo;
 import static com.github.tomakehurst.wiremock.client.WireMock.equalToJson;
 import static com.github.tomakehurst.wiremock.client.WireMock.givenThat;
+import static com.github.tomakehurst.wiremock.client.WireMock.matching;
 import static com.github.tomakehurst.wiremock.client.WireMock.okJson;
 import static com.github.tomakehurst.wiremock.client.WireMock.post;
 import static io.github.scordio.springframework.batch.extensions.notion.Sort.Direction.DESCENDING;
 import static io.github.scordio.springframework.batch.extensions.notion.it.RequestBodies.queryRequest;
 import static io.github.scordio.springframework.batch.extensions.notion.it.RequestBodies.sortByProperty;
+import static io.github.scordio.springframework.batch.extensions.notion.it.RequestHeaders.NOTION_VERSION;
+import static io.github.scordio.springframework.batch.extensions.notion.it.RequestHeaders.NOTION_VERSION_VALUE;
 import static io.github.scordio.springframework.batch.extensions.notion.it.ResponseBodies.queryResponse;
 import static io.github.scordio.springframework.batch.extensions.notion.it.ResponseBodies.result;
 import static io.github.scordio.springframework.batch.extensions.notion.it.ResponseBodies.richText;
@@ -55,6 +60,8 @@ import static java.util.UUID.randomUUID;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.InstanceOfAssertFactories.LIST;
 import static org.springframework.batch.core.ExitStatus.COMPLETED;
+import static wiremock.com.google.common.net.HttpHeaders.AUTHORIZATION;
+import static wiremock.com.google.common.net.HttpHeaders.CONTENT_TYPE;
 
 @IntegrationTest
 class MultiplePagesDescendingTests {
@@ -81,10 +88,16 @@ class MultiplePagesDescendingTests {
 				Map.of("Name", title(""), "Value", richText("abc-1234")));
 
 		givenThat(post("/databases/%s/query".formatted(DATABASE_ID)) //
+			.withHeader(AUTHORIZATION, matching("Bearer .+"))
+			.withHeader(CONTENT_TYPE, containing("application/json"))
+			.withHeader(NOTION_VERSION, equalTo(NOTION_VERSION_VALUE))
 			.withRequestBody(equalToJson(queryRequest(PAGE_SIZE, sortByProperty("Name", DESCENDING))))
 			.willReturn(okJson(queryResponse(thirdResultId, firstResult, secondResult))));
 
 		givenThat(post("/databases/%s/query".formatted(DATABASE_ID)) //
+			.withHeader(AUTHORIZATION, matching("Bearer .+"))
+			.withHeader(CONTENT_TYPE, containing("application/json"))
+			.withHeader(NOTION_VERSION, equalTo(NOTION_VERSION_VALUE))
 			.withRequestBody(equalToJson(queryRequest(thirdResultId, PAGE_SIZE, sortByProperty("Name", DESCENDING))))
 			.willReturn(okJson(queryResponse(thirdResult))));
 	}
