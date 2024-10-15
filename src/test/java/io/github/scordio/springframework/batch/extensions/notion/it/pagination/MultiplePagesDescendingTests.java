@@ -21,7 +21,6 @@ import io.github.scordio.springframework.batch.extensions.notion.it.IntegrationT
 import io.github.scordio.springframework.batch.extensions.notion.it.pagination.MultiplePagesDescendingTests.PaginatedDescendingJob.Item;
 import io.github.scordio.springframework.batch.extensions.notion.mapping.RecordPropertyMapper;
 import org.json.JSONObject;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
@@ -76,8 +75,9 @@ class MultiplePagesDescendingTests {
 	@Autowired
 	ListItemWriter<Item> itemWriter;
 
-	@BeforeAll
-	static void wiremockStubbing() {
+	@Test
+	void should_succeed() throws Exception {
+		// GIVEN
 		UUID thirdResultId = randomUUID();
 
 		JSONObject firstResult = result(randomUUID(), DATABASE_ID,
@@ -100,12 +100,10 @@ class MultiplePagesDescendingTests {
 			.withHeader(NOTION_VERSION, equalTo(NOTION_VERSION_VALUE))
 			.withRequestBody(equalToJson(queryRequest(thirdResultId, PAGE_SIZE, sortByProperty("Name", DESCENDING))))
 			.willReturn(okJson(queryResponse(thirdResult))));
-	}
 
-	@Test
-	void should_succeed() throws Exception {
 		// WHEN
 		JobExecution jobExecution = launcher.launchJob();
+
 		// THEN
 		then(jobExecution.getExitStatus()).isEqualTo(COMPLETED);
 
@@ -119,8 +117,8 @@ class MultiplePagesDescendingTests {
 	@SpringBootApplication
 	static class PaginatedDescendingJob {
 
-		@Value("${wiremock.server.port}")
-		private int wiremockPort;
+		@Value("${wiremock.server.baseUrl}")
+		private String wiremockBaseUrl;
 
 		@Bean
 		Job job(JobRepository jobRepository, Step step) {
@@ -143,7 +141,7 @@ class MultiplePagesDescendingTests {
 			reader.setSaveState(false);
 
 			reader.setToken("token");
-			reader.setBaseUrl("http://localhost:" + wiremockPort);
+			reader.setBaseUrl(wiremockBaseUrl);
 			reader.setDatabaseId(DATABASE_ID.toString());
 
 			reader.setPageSize(PAGE_SIZE);

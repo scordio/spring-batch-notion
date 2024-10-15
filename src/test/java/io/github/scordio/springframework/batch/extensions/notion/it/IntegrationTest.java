@@ -17,7 +17,7 @@ package io.github.scordio.springframework.batch.extensions.notion.it;
 
 import org.springframework.batch.test.context.SpringBatchTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock;
+import org.wiremock.spring.EnableWireMock;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
@@ -29,7 +29,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 @SpringBootTest(properties = "spring.batch.job.enabled=false")
 @SpringBatchTest
-@AutoConfigureWireMock(port = 0)
+@EnableWireMock
 public @interface IntegrationTest {
 
 }
