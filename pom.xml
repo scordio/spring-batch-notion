@@ -98,7 +98,7 @@
     <dependency>
       <groupId>org.wiremock.integrations</groupId>
       <artifactId>wiremock-spring-boot</artifactId>
-      <version>3.0.2</version>
+      <version>3.1.0</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
